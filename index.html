@@ -1746,7 +1746,9 @@ html.light-ui .lang { color: #FFFFFF; } /* on the cover photo and on dark projec
       if (!res.ok || String(json.success) === 'false') throw new Error(json.message || res.status);
       form.reset(); say(tr('보냈어요. 확인 후 연락드릴게요.', 'Sent. We’ll get back to you soon.'));
     } catch {
-      openMail(mailtoFrom(data));
+      // no mail app popping up: keep the message on the page and say where else it can go
+      say(tr('앗, 지금은 바로 보내지지 않았어요. 잠시 후 다시 눌러 주시거나', 'Oops, it didn’t go through just now. Please try again in a moment, or write to')
+        + ` <b>${MAIL_TO}</b>${tr(' 로 보내 주세요.', '.')}`, true);
     } finally { sendBtn.disabled = false; }
   });
 

@@ -198,7 +198,7 @@ button, input, textarea { font: inherit; color: inherit; }
 .d-text { grid-column: 1; width: min(292px, 100%); font-size: 13px; line-height: 1.77; }
 .d-text p { margin: 0 0 1.4em; }
 .d-text h2 { font-family: var(--en); font-weight: 400; font-size: 13px; margin: 0 0 12px; }
-.d-meta { display: grid; grid-template-columns: 62px 1fr; margin: 56px 0 0; font-family: var(--en); font-size: 12.5px; line-height: 1.77; }
+.d-meta { display: grid; grid-template-columns: 62px 1fr; margin: 56px 0 0; font-family: var(--en); font-size: 13px; line-height: 1.77; } /* same size and leading as the story text */
 .d-meta dt, .d-meta dd { margin: 0; }
 .d-meta dd { font-family: var(--kr); }
 .d-media { grid-column: 2; display: grid; gap: 30px; align-content: start; min-width: 0; }
@@ -439,6 +439,8 @@ html.light-ui .lang { color: #FFFFFF; } /* on the cover photo and on dark projec
   #v-projects .page-title { font-size: 16px; line-height: 1.6; }
   #v-projects .page-title .fan-trigger { text-underline-offset: 4px; }
   .fan a { font-size: 14px; padding: 7px 12px 8px; }
+  /* About and Contact need no big page name on a phone: the underlined link in the top row says it */
+  #v-about .topbar > .page-title, #v-contact .topbar .fanwrap { display: none; }
   /* Cover */
   .home-bar { padding-top: calc(env(safe-area-inset-top, 0px) + 20px); }
   .logo { font-size: 24px; line-height: 1.45; }
@@ -452,7 +454,7 @@ html.light-ui .lang { color: #FFFFFF; } /* on the cover photo and on dark projec
   .d-text p { margin-bottom: 1.2em; }
   .d-text > p:last-of-type, html:not(.en) .d-text > p.l-ko:not(:has(~ p.l-ko)) { margin-bottom: 0; }
   .sound.idle { display: none; }
-  .d-meta { order: -1; margin: 0 0 20px; padding-bottom: 6px; border-bottom: 1px solid currentColor; grid-template-columns: 54px 1fr; font-size: 13px; line-height: 1.32; }
+  .d-meta { order: -1; margin: 0 0 20px; padding-bottom: 6px; border-bottom: 1px solid currentColor; grid-template-columns: 54px 1fr; font-size: 11px; line-height: 1.65; }
   .d-text.only-meta .d-meta { margin-bottom: 0; border-bottom: 0; }
   .d-text h2 { font-size: 14px; margin: 0; }
   .d-media { grid-column: 1; gap: 16px; }
@@ -551,7 +553,6 @@ html.light-ui .lang { color: #FFFFFF; } /* on the cover photo and on dark projec
         <h2>Activities</h2>
         <dl>
           <dt>2026.09-2027.02</dt><dd><span class="l-ko">넥스트디자인스쿨 인턴</span><span class="l-en">Intern, Next Design School</span></dd>
-          <dt>2026.05-2026.08</dt><dd><span class="l-ko">인사이드 더 플레이 : 군체 스텝 아르바이트</span><span class="l-en">Part-time Staff, Inside the Play: Colony</span></dd>
           <dt>2025.03-2026.04</dt><dd><span class="l-ko">스타벅스 바리스타</span><span class="l-en">Barista, Starbucks</span></dd>
           <dt>2024.10-2025.01</dt><dd><span class="l-ko">LG유플러스 포동TF 디자인 아르바이트</span><span class="l-en">Part-time Designer, LG U+ Podong TF</span></dd>
           <dt>2024.09</dt><dd><span class="l-ko">애드레날린 777전&lt;All Day (&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)!&gt; 아트디렉팅</span><span class="l-en">Art Direction, ADrenaline 777 Exhibition &lt;All Day (&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)!&gt;</span></dd>
@@ -905,12 +906,17 @@ html.light-ui .lang { color: #FFFFFF; } /* on the cover photo and on dark projec
     const fx = m < 1 ? t.offsetWidth + 18 : Math.max(130, t.offsetWidth + 30);
     const y0 = m < 1 ? ((parseFloat(getComputedStyle(t).lineHeight) || t.offsetHeight) - (as[0]?.offsetHeight || 30)) / 2 - 9 * m : 0;
     w.style.setProperty('--fx', fx + 'px');
+    // spokes of one fan: every box points at the same hub, its inner end on the same circle,
+    // and the angles step evenly, so the gaps stay even whatever the names' lengths
+    const h0 = as[0]?.offsetHeight || 34, RIN = 160 * m, STEP_DEG = 23;
+    const hx = fx - RIN, hy = y0 + 9 * m + h0 / 2;
+    const rowW = Math.max(...as.slice(0, per).map(b => b.offsetWidth));
     as.forEach((a, i) => {
-      const k = i % per, [dx, dy, r] = ARC[k].map((v, j) => j < 2 ? v * m : v), ux = dx + 230 * m, uy = dy - 10 * m, len = Math.hypot(ux, uy);
-      const out = i >= per ? Math.max(...as.slice(0, per).map(b => b.offsetWidth)) + 28 * m : 0;
-      a.style.setProperty('--x', fx + dx + out * ux / len + 'px');
-      a.style.setProperty('--y', y0 + dy + out * uy / len + 'px');
-      a.style.setProperty('--r', r + 'deg');
+      const k = i % per, deg = k * STEP_DEG, th = deg * Math.PI / 180, bw = a.offsetWidth, bh = a.offsetHeight;
+      const rin = RIN + (i >= per ? rowW + 28 * m : 0), rc = rin + bw / 2;
+      a.style.setProperty('--x', hx + rc * Math.cos(th) - bw / 2 + 'px');
+      a.style.setProperty('--y', hy + rc * Math.sin(th) - bh / 2 + 'px');
+      a.style.setProperty('--r', deg + 'deg');
     });
   }
   requestAnimationFrame(() => $$('.cat .fanwrap, .detail .fanwrap').forEach(fitFan));

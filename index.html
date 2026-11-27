@@ -720,7 +720,7 @@ html.light-ui .lang { color: #FFFFFF; } /* on the cover photo and on dark projec
       media: [{ video: 'bbycakes2', mp4only: true, poster: 'bbycakes-1.jpg' }] },
     { slug: 'lunas-coffee-chat', cat: 'video', name: 'Luna’s Coffee Chat', bg: '#54C3F1',
       text: '룬아의 커피챗은 넥스트 디자인 스쿨에서 다양한 분야의 사람들을 만나 일과 커리어에 관한 이야기를 나누는 유튜브 인터뷰 콘텐츠입니다. 각자의 일을 시작한 계기와 커리어를 만들어온 과정, 일에 대한 생각을 편안한 대화로 전합니다.',
-      meta: [['Date', '2026.10'], ['Type', 'YouTube Interview Series'], ['Team', 'Internship Project'], ['Tools', 'Adobe Premiere Pro, Adobe After Effects, ChatGPT']],
+      meta: [['Date', '2026.10'], ['Type', 'YouTube Interview Series'], ['Team', 'Internship Project (로고 : 강혜민)'], ['Tools', 'Adobe Premiere Pro, Adobe After Effects, ChatGPT']],
       media: [{ video: 'luna' }] },
     { slug: 'my-lovely-liar', cat: 'video', name: 'My Lovely Liar', bg: '#E9DBE5',
       text: '드라마 〈소용없어 거짓말〉의 기존 장면을 재구성한 가상 티저 영상입니다. 거짓말을 구별하는 목솔희와 정체를 숨긴 김도하의 대비를 중심으로, 두 인물의 소개부터 만남과 로맨스의 시작까지 45초 안에 압축했습니다. 주요 대사를 중심으로 장면을 연결하고, 인물 전환에 맞춘 타이포그래피와 핑크 포인트 컬러를 활용해 미스터리와 로맨틱 코미디가 공존하는 작품의 분위기를 담았습니다.',
@@ -754,7 +754,7 @@ html.light-ui .lang { color: #FFFFFF; } /* on the cover photo and on dark projec
     'my-lovely-liar': { text: 'A fictional teaser that recomposes scenes from the drama 〈My Lovely Liar〉. Centered on the contrast between Mok Sol-hee, who can tell when people lie, and Kim Do-ha, who hides who he is, it compresses their introductions, their meeting and the start of their romance into 45 seconds. Scenes are linked by key lines, with typography timed to each character change and pink accents, capturing a show where mystery and romantic comedy live side by side.' },
   };
   // Korean words in the project facts (clients, events); people's names are left as they are
-  const META_EN = [['홍익태권', 'Hongik Taekwondo'], ['전국태권도동아리연합대회', 'National Taekwondo Club Championship'], ['연무시범', 'Demonstration'], ['회지', 'Yearbook']];
+  const META_EN = [['(로고 : ', '(Logo: '], ['홍익태권', 'Hongik Taekwondo'], ['전국태권도동아리연합대회', 'National Taekwondo Club Championship'], ['연무시범', 'Demonstration'], ['회지', 'Yearbook']];
   const metaEn = v => META_EN.reduce((t, [k, e]) => t.split(k).join(e), v);
   const both = (ko, en, tag = 'span') => en == null || en === ko ? (tag === 'span' ? esc(ko) : `<${tag}>${esc(ko)}</${tag}>`) : `<${tag} class="l-ko">${esc(ko)}</${tag}><${tag} class="l-en">${esc(en)}</${tag}>`;
   const BY = Object.fromEntries(PROJECTS.map(p => [p.slug, p]));

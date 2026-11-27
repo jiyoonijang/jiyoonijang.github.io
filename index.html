@@ -121,7 +121,7 @@ button, input, textarea { font: inherit; color: inherit; }
 /* photos can't be dragged out, long-pressed or right-clicked to save */
 img, video, .cut, .chunk { -webkit-user-select: none; user-select: none; -webkit-user-drag: none; -webkit-touch-callout: none; }
 .field-bg { width: 100%; height: 100%; object-fit: cover; }
-.field-jelly { position: absolute; z-index: 2; transform-origin: 50% 98%; }
+.field-jelly { position: absolute; z-index: 3; transform-origin: 50% 98%; -webkit-transform: translateZ(0); will-change: transform; } /* its own layer, so a playing film (iOS draws it on top) never covers the cuts */
 .field-jelly img { width: 100%; height: auto; visibility: hidden; }
 /* Shovel cuts live in a layer masked by the jelly's own silhouette, so nothing pokes into the sky */
 .field-jelly .digs { position: absolute; inset: 0; pointer-events: none; -webkit-mask-size: 100% 100%; mask-size: 100% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
@@ -144,7 +144,7 @@ img, video, .cut, .chunk { -webkit-user-select: none; user-select: none; -webkit
   box-shadow: inset 0 3px 2px -1px rgba(255, 230, 232, .8), inset 0 -6px 8px -3px rgba(70, 0, 10, .5); }
 .sheep { position: absolute; display: block; }
 .sheep img { width: 100%; height: auto; }
-@keyframes zoomin { from { transform: scale(1); } to { transform: scale(1.22); } }
+@keyframes zoomin { from { transform: none; } to { transform: none; } } /* the yard shows as it is, no zoom (11-27) */
 @keyframes jiggle {
   0%, 62%, 100% { transform: scale(1, 1); }
   66% { transform: scale(1.025, .965); } 71% { transform: scale(.985, 1.02); }
@@ -155,10 +155,10 @@ img, video, .cut, .chunk { -webkit-user-select: none; user-select: none; -webkit
 /* Phones held upright get their own still of the yard (cover-m.jpg) instead of the wide film */
 .meadow-m { display: none; width: max(100vw, calc(100svh * 960 / 2068)); aspect-ratio: 960 / 2068; transform-origin: 50% 48%; background: #8fc0e8; animation-name: zoomin-m; }
 /* the phone film lies over the still and only shows once it is really playing, so no play button ever appears */
-.meadow-m .film-m { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .4s; pointer-events: none; }
+.meadow-m .film-m { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .4s; pointer-events: none; }
 .meadow-m .film-m.on { opacity: 1; }
 .film-m::-webkit-media-controls, .film-m::-webkit-media-controls-start-playback-button, .film-m::-webkit-media-controls-overlay-play-button { display: none !important; -webkit-appearance: none; }
-@keyframes zoomin-m { from { transform: scale(1); } to { transform: scale(1.08); } }
+@keyframes zoomin-m { from { transform: none; } to { transform: none; } }
 @media (max-aspect-ratio: 3 / 4) {
   .meadow:not(.meadow-m) { display: none; }
   .meadow-m { display: block; }

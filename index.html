@@ -1454,11 +1454,14 @@ html.light-ui .lang { color: #FFFFFF; } /* on the cover photo and on dark projec
     const drips = Array.from({ length: n }, (_, i) => ({
       x: (i + .2 + Math.random() * .6) / n * W, w: (34 + Math.random() * 36) * u,
       len: (60 + Math.random() * 170) * u, lag: Math.random() * .35,
+      // each drip has its own pace and its own wobble, so the sheet pours like a liquid, not in step
+      sp: .75 + Math.random() * .6, f: 5 + Math.random() * 4, ph: Math.random() * 6.3,
     }));
     const wob = Math.random() * 6;
     const STEP = Math.max(4, W / 220);
     // the lower edge: a soft wavy rim plus every drip hanging from it
     // the lower edge: a soft wavy rim, plus every drip hanging from it
+    let tNow = 0; const tStart = performance.now();
     const rimBase = (x, base) => base + 12 * u * Math.sin(x / (110 * u) + wob) + 4 * u * Math.sin(x / (53 * u) - wob);
     const dripAt = (x, grow, sag) => {
       // each drip is a rounded lobe (round bottom, soft sides); a smooth max blends them into
@@ -1466,8 +1469,12 @@ html.light-ui .lang { color: #FFFFFF; } /* on the cover photo and on dark projec
       const K = 16 * u;
       let acc = 1;
       for (const d of drips) {
-        const g = Math.max(0, Math.min(1, (grow - d.lag) / (1 - d.lag)));
-        const L = d.len * (g * g * (3 - 2 * g)) * sag, q = (x - d.x) / (d.w * (.8 + .3 * g));
+        const g = Math.max(0, Math.min(1, (grow * d.sp - d.lag) / (1 - d.lag)));
+        // a stretching drip overshoots and bounces back a little, its neck thins as it runs, and it sways
+        const bob = 1 + .09 * Math.sin(tNow * d.f + d.ph) * Math.min(1, g * 2.5) * (1 - .5 * g);
+        const L = d.len * (g * g * (3 - 2 * g)) * (1 + (sag - 1) * d.sp) * bob;
+        const wd = d.w * (.8 + .3 * g) * (1 + .1 * Math.sin(tNow * d.f * 1.3 + d.ph + 1)) / Math.sqrt(Math.max(1, bob * (1 + (sag - 1) * d.sp)));
+        const q = (x - d.x - 5 * u * Math.sin(tNow * d.f * .45 + d.ph)) / wd;
         if (q > -1 && q < 1) acc += Math.exp(L * Math.pow(1 - q * q, .45) / K);
       }
       return Math.max(0, K * Math.log(acc) - K * Math.log(1 + 1e-9));
@@ -1520,7 +1527,7 @@ html.light-ui .lang { color: #FFFFFF; } /* on the cover photo and on dark projec
     const run = async (ms, f) => {
       const t0 = performance.now();
       for (;;) {
-        const t = Math.min(1, (performance.now() - t0) / ms); f(t);
+        const now = performance.now(), t = Math.min(1, (now - t0) / ms); tNow = (now - tStart) / 1000; f(t);
         if (t >= 1 || document.hidden) break;
         await sleepFrame();
       }

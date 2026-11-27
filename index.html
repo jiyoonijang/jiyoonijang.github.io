@@ -456,6 +456,8 @@ html.light-ui .lang { color: #FFFFFF; } /* on the cover photo and on dark projec
   #v-about .topbar > .page-title, #v-contact .topbar .fanwrap { display: none; }
   /* Cover */
   .home-bar { padding-top: calc(env(safe-area-inset-top, 0px) + 20px); }
+  /* the bottom corners sit as far from the bottom edge as the logo sits from the top */
+  .sound, .lang { bottom: calc(env(safe-area-inset-bottom, 0px) + 20px); }
   .logo { font-size: 24px; line-height: 1.45; }
   .contact-top { font-size: 15px; margin-top: 3px; }
   .greet { gap: 1.9em; }

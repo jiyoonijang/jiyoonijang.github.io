@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>zyooui</title>
+<title>jumbojellyyard</title>
 <style>
 /* Pretendard Regular, subset to ASCII + the 2,350 common Hangul syllables */
 @font-face { font-family: "Orbit"; font-weight: 400; font-style: normal; font-display: swap; src: url("fonts/orbit-regular.woff2") format("woff2"); }
@@ -1281,7 +1281,7 @@ button, input, textarea { font: inherit; color: inherit; }
     // Replay the zoom each time the cover comes back
     if (v === 'home' && route !== 'home') { video.style.animation = 'none'; void video.offsetWidth; video.style.animation = ''; }
     const label = BY[v]?.name ?? CATS[v] ?? v[0].toUpperCase() + v.slice(1);
-    document.title = v === 'home' ? 'zyooui' : `${label} — zyooui`;
+    document.title = v === 'home' ? 'jumbojellyyard' : `${label} — jumbojellyyard`;
     route = v;
     window.scrollTo(0, 0);
     startFilms(views[v]);

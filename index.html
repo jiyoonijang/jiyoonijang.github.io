@@ -157,7 +157,11 @@ img, video, .cut, .chunk { -webkit-user-select: none; user-select: none; -webkit
 /* the phone film lies over the still and only shows once it is really playing, so no play button ever appears */
 .meadow-m .film-m { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .4s; pointer-events: none; }
 .meadow-m .film-m.on { opacity: 1; }
-.film-m::-webkit-media-controls, .film-m::-webkit-media-controls-start-playback-button, .film-m::-webkit-media-controls-overlay-play-button { display: none !important; -webkit-appearance: none; }
+.meadow-m .film-m { object-fit: fill; }
+/* the phone film itself plays in a one-pixel hole, so iOS has nowhere to show its play button; its frames are painted on the canvas */
+.film-src { position: absolute; left: 0; top: 0; width: 1px; height: 1px; overflow: hidden; opacity: .01; pointer-events: none; z-index: 0; }
+.film-src video { width: 1px; height: 1px; }
+.film-src video::-webkit-media-controls, .film-src video::-webkit-media-controls-start-playback-button, .film-src video::-webkit-media-controls-overlay-play-button { display: none !important; -webkit-appearance: none; }
 @keyframes zoomin-m { from { transform: none; } to { transform: none; } }
 @media (max-aspect-ratio: 3 / 4) {
   .meadow:not(.meadow-m) { display: none; }
@@ -521,7 +525,7 @@ html.light-ui .lang { color: #FFFFFF; } /* on the cover photo and on dark projec
   </div>
   <div class="meadow meadow-m" aria-hidden="true">
     <img class="field-bg" src="cover-m.jpg" alt="" draggable="false">
-    <video class="field-bg film-m" muted loop playsinline webkit-playsinline autoplay preload="none" poster="cover-m.jpg" disablepictureinpicture disableremoteplayback aria-hidden="true" tabindex="-1"><source src="cover-m.mp4?v=1127b" type="video/mp4"></video>
+    <canvas class="field-bg film-m" aria-hidden="true"></canvas><div class="film-src" aria-hidden="true"><video muted loop playsinline webkit-playsinline autoplay preload="none" poster="cover-m.jpg" disablepictureinpicture disableremoteplayback aria-hidden="true" tabindex="-1"><source src="cover-m.mp4?v=1127c" type="video/mp4"></video></div>
     <div class="field-jelly" style="left:9.271%; top:39.023%; width:81.979%"><img src="field-jelly-m.webp" alt="" draggable="false"></div>
   </div>
   <div class="greet gone" id="greet" role="dialog" aria-label="인사말">
@@ -938,6 +942,25 @@ html.light-ui .lang { color: #FFFFFF; } /* on the cover photo and on dark projec
       a.style.setProperty('--y', hy + rc * Math.sin(th) - bh / 2 + 'px');
       a.style.setProperty('--r', deg + 'deg');
     });
+    if (w.closest('.home')) nudgeClear(w, t, as);
+  }
+  // Cover: keep the fan exactly as it is, only slide the whole thing right until no turned box touches the logo's words
+  function nudgeClear(w, t, as) {
+    const rg = document.createRange(); rg.selectNodeContents(t);
+    const o = $('.fan', w).getBoundingClientRect(), GAP = 14;
+    const lines = [...rg.getClientRects()].filter(r => r.width > 2).map(r => ({ top: r.top - o.top, bottom: r.bottom - o.top, right: r.right - o.left }));
+    let need = 0;
+    as.forEach(a => {
+      const x = parseFloat(a.style.getPropertyValue('--x')), y = parseFloat(a.style.getPropertyValue('--y'));
+      const bw = a.offsetWidth, bh = a.offsetHeight, th = parseFloat(a.style.getPropertyValue('--r')) * Math.PI / 180;
+      const cx = x + bw / 2, cy = y + bh / 2, c = Math.cos(th), s = Math.sin(th);
+      // sample the turned outline and find its leftmost point inside each word line's height
+      for (let k = 0; k <= 40; k++) for (const [u, v] of [[k / 40, 0], [k / 40, 1], [0, k / 40], [1, k / 40]]) {
+        const dx = (u - .5) * bw, dy = (v - .5) * bh, px = cx + dx * c - dy * s, py = cy + dx * s + dy * c;
+        for (const l of lines) if (py > l.top && py < l.bottom) need = Math.max(need, l.right + GAP - px);
+      }
+    });
+    if (need > 0) as.forEach(a => a.style.setProperty('--x', parseFloat(a.style.getPropertyValue('--x')) + need + 'px'));
   }
   requestAnimationFrame(() => $$('.cat .fanwrap, .detail .fanwrap').forEach(fitFan));
   addEventListener('load', () => $$('.cat .fanwrap, .detail .fanwrap').forEach(fitFan));
@@ -1423,11 +1446,29 @@ html.light-ui .lang { color: #FFFFFF; } /* on the cover photo and on dark projec
   // ---------- Views and routing ----------
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   const upright = matchMedia('(max-aspect-ratio: 3 / 4)');
-  const filmM = $('.film-m');
-  if (filmM) { filmM.muted = true; filmM.defaultMuted = true;
+  const filmM = $('.film-src video'), filmC = $('canvas.film-m');
+  if (filmM && filmC) { filmM.muted = true; filmM.defaultMuted = true;
     // in-app browsers may only start a film after a touch: try again on the first one (lifting the hello counts)
     addEventListener('pointerdown', () => syncFilm(), { once: true, capture: true });
-    filmM.addEventListener('playing', () => filmM.classList.add('on')); filmM.addEventListener('pause', () => filmM.classList.remove('on')); }
+    const cx = filmC.getContext('2d');
+    let shown = false, ticking = false;
+    const paint = () => {
+      const vw = filmM.videoWidth, vh = filmM.videoHeight, cw = filmC.clientWidth, ch = filmC.clientHeight;
+      if (!vw || !cw || filmM.readyState < 2) return false;
+      const k = Math.min(devicePixelRatio || 1, 2), W = Math.round(cw * k), H = Math.round(ch * k);
+      if (filmC.width !== W || filmC.height !== H) { filmC.width = W; filmC.height = H; }
+      // same crop as object-fit: cover, centred
+      const sc = Math.max(W / vw, H / vh), sw = W / sc, sh = H / sc;
+      cx.drawImage(filmM, (vw - sw) / 2, (vh - sh) / 2, sw, sh, 0, 0, W, H);
+      return true;
+    };
+    const tick = () => {
+      if (filmM.paused) { ticking = false; return; }
+      if (paint() && !shown && filmM.currentTime > 0) { shown = true; filmC.classList.add('on'); }
+      filmM.requestVideoFrameCallback ? filmM.requestVideoFrameCallback(tick) : requestAnimationFrame(tick);
+    };
+    filmM.addEventListener('playing', () => { if (!ticking) { ticking = true; tick(); } });
+  }
   const syncFilm = (v = route) => {
     const cv = $('#carousel video'); if (!cv) return;
     v === 'home' && !upright.matches ? cv.play().catch(() => {}) : cv.pause();
@@ -1594,7 +1635,7 @@ html.light-ui .lang { color: #FFFFFF; } /* on the cover photo and on dark projec
   $$('.fanwrap').forEach(w => {
     const trig = $('.fan-trigger', w);
     let t = 0;
-    const set = on => { clearTimeout(t); if (on) { if (w.closest('.home')) fitHomeFan(w); else if (w.querySelector('[data-x]') || PHONE()) fitFan(w); } w.classList.toggle('open', on); trig.setAttribute('aria-expanded', on); };
+    const set = on => { clearTimeout(t); if (on) { if (w.closest('.home')) fitFan(w); else if (w.querySelector('[data-x]') || PHONE()) fitFan(w); } w.classList.toggle('open', on); trig.setAttribute('aria-expanded', on); };
     w._set = set;
     w.addEventListener('pointerenter', e => { if (e.pointerType !== 'touch') set(true); });
     // A short grace period so a diagonal move from the title to a box doesn't close the menu

@@ -55,8 +55,7 @@ button, input, textarea { font: inherit; color: inherit; }
 .view.mint { background: var(--mint); color: var(--ink); }
 /* About takes the cover's sky: deep blue at the top fading to the hazy horizon, a breath of meadow at the foot */
 /* About, Projects, the category pages and Contact sit on the meadow's lawn */
-.view.grass { background: #C8E064; color: var(--ink); } /* plain yellow-green, black text reads cleanly */
-.view.grass .fan a { color: #1b120a; text-shadow: 0 1.5px 0 rgba(240, 226, 200, .75), 0 -1px 0 rgba(0, 0, 0, .6); }
+.view.grass { background: #C3ECD7; color: var(--ink); } /* soft mint green (her pick), black text reads cleanly */
 .view.grass textarea, .view.grass .orb, .view.grass .cal-grid { text-shadow: none; color: #111111; }
 .view.sky { --sky: linear-gradient(180deg, #6fbdf6 0%, #9fd3fa 42%, #cbe8fc 74%, #dcefe6 92%, #cfe3b4 100%); background: var(--sky) fixed; color: var(--ink); }
 
@@ -83,38 +82,23 @@ button, input, textarea { font: inherit; color: inherit; }
 .fanwrap.open .fan-trigger { text-decoration-color: currentColor; }
 .fan { position: absolute; left: 0; top: 0; list-style: none; margin: 0; padding: 0; pointer-events: none; }
 .fan li { position: absolute; left: 0; top: 0; pointer-events: none; }
-/* Each sub-menu item is a little pine plank: wood grain face, a darker edge under it for thickness, two nail heads.
-   Pressing pushes the plank down onto its edge. */
+/* Each sub-menu item is a clean white box with a thin black line; pressed, it turns black */
 .fan a {
-  display: block; position: relative; font-family: var(--en); font-size: 16px; line-height: 1; padding: 9px 20px 10px;
-  border: 0; border-radius: 2px; white-space: nowrap;
-  background: linear-gradient(rgba(255, 238, 214, .2), rgba(255, 238, 214, .2)), url(wood.webp) var(--wx, 0) var(--wy, 0) / 400px auto, #8a7965;
-  /* letters carved into the board: dark floor, shadowed top lip, light catching the lower lip */
-  color: #1b120a; text-shadow: 0 1.5px 0 rgba(240, 226, 200, .75), 0 -1px 0 rgba(0, 0, 0, .6); -webkit-text-stroke: .35px #1b120a; letter-spacing: .02em;
-  --edge: 4px;
-  box-shadow: inset 0 1px 0 rgba(230, 220, 200, .35), inset 0 -1px 0 rgba(30, 20, 10, .35), 0 var(--edge) 0 #4b3d30, 0 calc(var(--edge) + 3px) 8px rgba(20, 30, 10, .4);
+  display: block; position: relative; font-family: var(--en); font-size: 16px; line-height: 1; padding: 9px 16px 10px;
+  border: 1px solid #111111; border-radius: 0; white-space: nowrap; background: #FFFFFF; color: #111111;
   transform: translate(var(--x0, 120px), 6px) rotate(0deg) scale(.6); opacity: 0;
-  transition: transform .5s var(--ease), opacity .3s, box-shadow .12s, filter .3s;
+  transition: transform .5s var(--ease), opacity .3s, background-color .15s, color .15s;
   transition-delay: calc((3 - var(--i)) * 40ms);
 }
-.fan a::before, .fan a::after { content: ""; position: absolute; top: 50%; width: 4px; height: 4px; margin-top: -2px; border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #e2ddd5, #7a736a 70%); box-shadow: 0 .5px 0 rgba(230, 220, 200, .4); }
-.fan a::before { left: 7px; } .fan a::after { right: 7px; }
-.fan li:nth-child(2n) a { --wx: -130px; --wy: -60px; } .fan li:nth-child(3n) a { --wx: -250px; --wy: -170px; } .fan li:nth-child(5n) a { --wx: -60px; --wy: -260px; }
 .fanwrap.open .fan a { pointer-events: auto; }
 .fanwrap.open .fan a {
   transform: translate(var(--x), var(--y)) rotate(var(--r)); opacity: 1;
-  transition: transform .75s var(--spring), opacity .25s, box-shadow .12s, filter .3s;
+  transition: transform .75s var(--spring), opacity .25s, background-color .15s, color .15s;
   transition-delay: calc(var(--i) * 70ms);
 }
 .fanwrap.open .fan a:hover, .fanwrap.open .fan a:focus-visible { transform: translate(var(--x), calc(var(--y) - 3px)) rotate(var(--r)); transition-delay: 0s; }
-/* pressed: the plank sinks onto its edge */
-.fanwrap.open .fan a:active, .fan a.picked, .fanwrap.open .fan a.picked {
-  transform: translate(var(--x), calc(var(--y) + 3px)) rotate(var(--r)) scale(.985);
-  box-shadow: inset 0 2px 3px rgba(20, 12, 5, .5), inset 0 -1px 0 rgba(230, 215, 190, .2), 0 1px 0 #4b3d30, 0 2px 3px rgba(20, 30, 10, .3);
-  filter: brightness(.93); transition: transform .08s ease-out, box-shadow .08s, filter .08s; transition-delay: 0s;
-}
-.fan a.here { filter: brightness(.88); box-shadow: inset 0 2px 3px rgba(20, 12, 5, .45), 0 2px 0 #4b3d30, 0 3px 5px rgba(20, 30, 10, .3); }
+.fanwrap.open .fan a:active, .fan a.picked, .fanwrap.open .fan a.picked { background: #111111; color: #FFFFFF; transition-delay: 0s; }
+.fan a.here { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
 
 /* Cover */
 .home { position: relative; height: 100svh; min-height: 0; padding: 0; overflow: hidden; display: grid; place-items: center; }
@@ -135,10 +119,11 @@ button, input, textarea { font: inherit; color: inherit; }
 .field-jelly { position: absolute; z-index: 2; transform-origin: 50% 98%; }
 .field-jelly img { width: 100%; height: auto; visibility: hidden; }
 /* Shovel cuts live in a layer masked by the jelly's own silhouette, so nothing pokes into the sky */
-.field-jelly .digs { position: absolute; inset: 0; pointer-events: none; -webkit-mask: url(field-jelly2.webp) 0 0 / 100% 100% no-repeat; mask: url(field-jelly2.webp) 0 0 / 100% 100% no-repeat; }
+.field-jelly { --jimg: url(field-jelly2.webp); }
+.field-jelly .digs { position: absolute; inset: 0; pointer-events: none; -webkit-mask: var(--jimg) 0 0 / 100% 100% no-repeat; mask: var(--jimg) 0 0 / 100% 100% no-repeat; }
 /* One cut: the jelly's own pixels seen deeper inside, a shadowed upper lip and a wet bright lower edge */
 .cut { position: absolute; width: var(--w); aspect-ratio: .82; translate: -50% -42%; border-radius: 46% 46% 50% 50% / 38% 38% 62% 62%;
-  background: url(field-jelly2.webp) no-repeat; filter: brightness(.64) saturate(1.3) contrast(1.1);
+  background: var(--jimg) no-repeat; filter: brightness(.64) saturate(1.3) contrast(1.1);
   overflow: hidden; }
 .cut::before { content: ""; position: absolute; inset: 0; border-radius: inherit;
   background: linear-gradient(180deg, rgba(70, 0, 10, .62), rgba(70, 0, 10, .18) 38%, transparent 60%),
@@ -158,6 +143,21 @@ button, input, textarea { font: inherit; color: inherit; }
 }
 .home.still .meadow, .home.still .meadow * { animation-play-state: paused; }
 @keyframes settle { from { opacity: 0; transform: translateY(24px) scale(.97); } }
+/* Phones held upright get their own still of the yard (cover-m.jpg) instead of the wide film */
+.meadow-m { display: none; width: max(100vw, calc(100svh * 960 / 2068)); aspect-ratio: 960 / 2068; transform-origin: 50% 48%; background: #8fc0e8; animation-name: zoomin-m; }
+.meadow-m .field-jelly { --jimg: url(field-jelly-m.webp); }
+@keyframes zoomin-m { from { transform: scale(1); } to { transform: scale(1.08); } }
+@media (max-aspect-ratio: 3 / 4) {
+  .meadow:not(.meadow-m) { display: none; }
+  .meadow-m { display: block; }
+}
+/* First visit: a dark veil with a hello on the cover; a tap anywhere lifts it and the yard zooms in */
+.greet { position: absolute; inset: 0; z-index: 4; display: grid; place-content: center; gap: 1.7em; padding: 24px; text-align: center; color: #fff;
+  background: rgba(0, 0, 0, .5); transition: opacity .55s var(--ease), visibility 0s .55s; text-shadow: 0 1px 8px rgba(0, 0, 0, .25); }
+.greet.gone { opacity: 0; visibility: hidden; pointer-events: none; }
+.greet .ko { margin: 0; font-family: var(--kr); font-weight: 700; font-size: 22px; line-height: 1.5; }
+.greet .en { margin: 0; font-family: var(--kr); font-size: 16px; line-height: 1.55; }
+.home.greeting .meadow { animation-play-state: paused; }
 
 /* About */
 .about-body { display: grid; grid-template-columns: var(--split) 1fr; padding-block: 120px 64px; row-gap: 96px; }
@@ -165,7 +165,7 @@ button, input, textarea { font: inherit; color: inherit; }
 .intro p { margin: 0; line-height: 1.75; word-break: keep-all; }
 .who { margin: 0; font-family: var(--en); font-weight: 400; font-size: 24px; line-height: 1.4; }
 .who .kr { font-size: 22px; }
-.who.brand { width: 273px; font-size: 45px; line-height: 1.12; letter-spacing: -.06em; margin: -.17em 0 0 -.02em; } /* cap top on the intro's first line, J on the page gutter */
+.who.brand { font-size: 24px; line-height: 1.3; margin: -.1em 0 0; }
 .who-date { margin: 6px 0 0; font-size: 18px; }
 .cv { display: grid; gap: 30px; min-width: 0; }
 .cv h2 { margin: 0 0 6px; font-family: var(--en); font-weight: 400; font-size: 18px; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
@@ -194,11 +194,13 @@ button, input, textarea { font: inherit; color: inherit; }
 .detail { background: var(--pbg); color: var(--pfg); display: flex; flex-direction: column; padding-bottom: 14px; }
 .detail ::selection { background: var(--pfg); color: var(--pbg); }
 .d-body { display: grid; grid-template-columns: var(--split) 1fr; row-gap: 60px; padding-top: 110px; }
+.d-sec { display: contents; }
 .d-text { grid-column: 1; width: min(292px, 100%); font-size: 13px; line-height: 1.77; }
 .d-text p { margin: 0 0 1.4em; }
 .d-text h2 { font-family: var(--en); font-weight: 400; font-size: 13px; margin: 0 0 12px; }
 .d-meta { display: grid; grid-template-columns: 62px 1fr; margin: 56px 0 0; font-family: var(--en); font-size: 12.5px; line-height: 1.77; }
 .d-meta dt, .d-meta dd { margin: 0; }
+.d-meta dd { font-family: var(--kr); }
 .d-media { grid-column: 2; display: grid; gap: 30px; align-content: start; min-width: 0; }
 .d-media img { width: 100%; height: auto; display: block; }
 .d-row { display: grid; grid-template-columns: repeat(var(--n), 1fr); align-content: start; }
@@ -246,6 +248,16 @@ button, input, textarea { font: inherit; color: inherit; }
 /* Landscape photos fill the width instead of the height */
 .lightbox.wide figure { height: auto; width: min(calc(100vw - 160px), calc((100svh - 120px) * var(--arn)), 1500px); aspect-ratio: var(--arn); }
 @keyframes pop { from { opacity: 0; transform: scale(.94); } }
+
+/* Language: everything written twice, one shown */
+html.en .l-ko, html:not(.en) .l-en { display: none !important; }
+.lang {
+  position: fixed; right: max(var(--gutter), env(safe-area-inset-right, 0px)); bottom: 14px; z-index: 41;
+  border: 0; background: none; padding: 4px 0; font-family: var(--en); font-size: 14px; cursor: pointer;
+  color: #111111; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px;
+}
+html:not(.on-home) .lang { display: none; } /* KO/EN only on the cover */
+html.light-ui .lang { color: #FFFFFF; } /* on the cover photo and on dark project pages */
 
 /* Background music */
 .sound {
@@ -332,12 +344,13 @@ button, input, textarea { font: inherit; color: inherit; }
 .channels .arw { font-family: var(--kr); font-size: .8em; }
 .channels a:hover { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
 .hello { grid-column: 1; margin: 0; font-size: 18px; line-height: 1.6; }
+.w-below { display: none; }
 .form { grid-column: 2; display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px; row-gap: 8px; min-width: 0; }
 .field { display: grid; gap: 2px; min-width: 0; }
 .field label { font-size: 14px; line-height: 1.5; }
 .field input {
   border: 0; border-bottom: 1px solid #111111; background: rgba(214, 232, 227, .7); color: #111111; padding: 8px 12px 7px; border-radius: 0;
-  font-family: var(--en); font-size: 18px; width: 100%; min-width: 0; text-shadow: none;
+  font-family: var(--kr); font-size: 17px; width: 100%; min-width: 0; text-shadow: none;
 }
 .field input::placeholder { color: #111111; opacity: .45; transition: opacity .2s; }
 .field input:focus { outline: none; border-bottom-width: 2px; padding-bottom: 6px; }
@@ -378,7 +391,7 @@ button, input, textarea { font: inherit; color: inherit; }
 /* Transition curtain */
 .curtain { position: fixed; inset: 0; z-index: 80; pointer-events: none; visibility: hidden; overflow: hidden; }
 /* the cover's red jelly drops in over the page, the page changes behind it, then it falls on out */
-.curtain img { position: absolute; left: 0; top: 0; max-width: none; will-change: transform; transform-origin: 50% 60%; }
+.curtain canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 
 /* Shovel cursor: the tip of the blade is the click point */
 .drop { position: fixed; left: 0; top: 0; z-index: 2147483647; pointer-events: none; width: auto; height: 78px; opacity: 0; filter: drop-shadow(0 2px 3px rgba(17, 17, 17, .3)) drop-shadow(0 0 1px rgba(17, 17, 17, .35)); transition: opacity .3s, height .45s var(--spring); }
@@ -400,8 +413,60 @@ button, input, textarea { font: inherit; color: inherit; }
   .about-body { padding-block: 64px 48px; row-gap: 40px; }
   .contact-body { padding-block: 64px 40px; row-gap: 40px; }
   .channels, .hello, .form { grid-column: 1; }
+  /* stacked: the note comes first and points down to the addresses */
+  .hello { grid-row: 1; }
+  .w-side { display: none; } .w-below { display: inline; }
   .channels { font-size: 17px; overflow-wrap: anywhere; }
   .logo, .page-title { font-size: 28px; }
+}
+/* Phones (the iPhone mock-ups): one line of page links with Home at the right, the page's title below it */
+@media (max-width: 600px) {
+  :root { --gutter: 20px; }
+  .topbar { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 16px; padding-top: calc(env(safe-area-inset-top, 0px) + 20px); }
+  .topbar > * { order: 3; }
+  .topbar .subnav { order: 1; font-size: 16px; gap: 16px; margin: 0; }
+  .topbar .home-link { order: 2; margin: 0 0 0 auto; font-size: 16px; }
+  .topbar .fanwrap, .topbar > .page-title { flex-basis: 100%; margin-top: 10px; padding-right: 0; }
+  .page-title { font-size: 22px; }
+  .page-title, .page-title .fan-trigger { text-decoration: underline; text-decoration-color: currentColor; text-underline-offset: 5px; text-decoration-thickness: 1px; }
+  /* Projects: its title is the "Projects" link itself, between About and Contact */
+  #v-projects .topbar .subnav { display: contents; }
+  #v-projects .subnav a[href="#about"] { order: 1; }
+  #v-projects .topbar .fanwrap { order: 2; flex-basis: auto; margin: 0; }
+  #v-projects .subnav a[href="#projects"] { display: none; }
+  #v-projects .subnav a[href="#contact"] { order: 3; }
+  #v-projects .topbar .home-link { order: 4; }
+  #v-projects .page-title { font-size: 16px; line-height: 1.6; }
+  #v-projects .page-title .fan-trigger { text-underline-offset: 4px; }
+  .fan a { font-size: 14px; padding: 7px 12px 8px; }
+  /* Cover */
+  .home-bar { padding-top: calc(env(safe-area-inset-top, 0px) + 20px); }
+  .logo { font-size: 24px; line-height: 1.45; }
+  .contact-top { font-size: 15px; margin-top: 3px; }
+  .greet { gap: 1.9em; }
+  .greet .ko { font-size: 15px; line-height: 1.6; }
+  .greet .en { font-size: 11.5px; line-height: 1.6; }
+  /* Project pages: one column; the facts come first under a rule, then the story; each section shows its work before its words */
+  .d-body { grid-template-columns: 1fr; row-gap: 30px; padding-top: 22px; }
+  .d-text { grid-column: 1; width: auto; display: flex; flex-direction: column; font-size: 11px; line-height: 1.65; }
+  .d-text p { margin-bottom: 1.2em; }
+  .d-text > p:last-of-type, html:not(.en) .d-text > p.l-ko:not(:has(~ p.l-ko)) { margin-bottom: 0; }
+  .sound.idle { display: none; }
+  .d-meta { order: -1; margin: 0 0 20px; padding-bottom: 6px; border-bottom: 1px solid currentColor; grid-template-columns: 54px 1fr; font-size: 13px; line-height: 1.32; }
+  .d-text.only-meta .d-meta { margin-bottom: 0; border-bottom: 0; }
+  .d-text h2 { font-size: 14px; margin: 0; }
+  .d-media { grid-column: 1; gap: 16px; }
+  .d-sec { display: flex; flex-direction: column; gap: 14px; }
+  .d-sec > .d-text { display: contents; }
+  .d-sec .d-media { order: 1; }
+  .d-sec .d-text p { order: 2; margin: 0; }
+  .back { padding-top: 60px; font-size: 16px; }
+  .to-top { bottom: 64px; }
+  /* Photo zoom: the photo takes the width; swipe to step */
+  .lightbox { grid-template-columns: auto; gap: 0; padding: 56px 16px 16px; }
+  .lightbox .nav { display: none; }
+  .lightbox figure, .lightbox.wide figure { height: auto; max-width: none; width: min(calc(100vw - 32px), calc((100svh - 90px) * var(--arn, .8))); aspect-ratio: var(--arn, .8); }
+  .turn-row button { width: 64px; }
 }
 @media (max-width: 520px) {
   .form { grid-template-columns: 1fr; }
@@ -432,8 +497,16 @@ button, input, textarea { font: inherit; color: inherit; }
     <a class="contact-top u" href="#contact">Contact</a>
   </div>
   <div class="meadow" id="carousel" role="img" aria-label="푸른 들판 한가운데 커다란 빨간 젤리와 풀을 뜯는 양들">
-    <video class="field-bg" autoplay muted loop playsinline preload="auto" poster="cover-poster.jpg" disablepictureinpicture><source src="cover.webm" type="video/webm"><source src="cover.mp4" type="video/mp4"></video>
+    <video class="field-bg" muted loop playsinline preload="none" poster="cover-poster.jpg" disablepictureinpicture><source src="cover.webm" type="video/webm"><source src="cover.mp4" type="video/mp4"></video>
     <div class="field-jelly" style="left:28.229%; top:28.796%; width:40.521%"><img src="field-jelly2.webp" alt="" draggable="false"></div>
+  </div>
+  <div class="meadow meadow-m" aria-hidden="true">
+    <img class="field-bg" src="cover-m.jpg" alt="" draggable="false">
+    <div class="field-jelly" style="left:9.271%; top:39.023%; width:81.979%"><img src="field-jelly-m.webp" alt="" draggable="false"></div>
+  </div>
+  <div class="greet gone" id="greet" role="dialog" aria-label="인사말">
+    <p class="ko l-ko">안녕하세요! Jumbojellyyard 입니다!<br>Jumbojellyyard를 누르면<br>제가 열심히 기른 프로젝트 젤리들이 있답니다.<br>마당의 커다란 젤리도 꼭 눌러보세요..!<br>(기분이 좋아진답니다ㅎㅎ)</p>
+    <p class="en l-en">Hi there! This is Jumbojellyyard!<br>Click Jumbojellyyard to find the project jellies<br>I’ve worked so hard to grow.<br>Give the big jelly in the yard a squish too..!<br>(It’ll put you in a good mood hehe)</p>
   </div>
 </main>
 
@@ -445,47 +518,49 @@ button, input, textarea { font: inherit; color: inherit; }
     <a class="home-link" href="#home">Home</a>
   </header>
   <div class="about-body">
-    <p class="who brand">Jumbo Jelly in Yard</p>
+    <p class="who brand">Jumbo Jelly yard</p>
     <div class="intro">
-      <p>Jumbo Jelly in Yard는 익숙한 풍경에 예상 밖의 상상을 더하는 디자인 스튜디오입니다. 잔디밭 한가운데 떨어진 거대한 젤리처럼, 일상에 낯설고 흥미로운 장면을 만듭니다.</p>
-      <p>디자이너 장지윤의 이니셜 JJY에서 시작한 이름에는 크게 펼치는 상상(Jumbo), 유연한 생각(Jelly), 자유롭게 실험하는 공간(Yard)이라는 의미를 담았습니다. 브랜딩과 그래픽, 사진을 오가며 작은 아이디어를 키우고, 머릿속의 상상을 눈앞의 장면으로 옮깁니다.</p>
+      <p class="l-en">Jumbo Jelly in Yard is a design studio that adds unexpected imagination to familiar scenery. Like a giant jelly dropped in the middle of a lawn, it turns everyday life into strange and exciting scenes.</p>
+      <p class="l-en">The name began with JJY, the initials of designer Jang Jiyoon, and holds three ideas: imagination spread wide (Jumbo), flexible thinking (Jelly) and a space to experiment freely (Yard). Moving across branding, graphics and photography, the studio grows small ideas and brings the scenes in its head to life before your eyes.</p>
+      <p class="l-ko">Jumbo Jelly in Yard는 익숙한 풍경에 예상 밖의 상상을 더하는 디자인 스튜디오입니다. 잔디밭 한가운데 떨어진 거대한 젤리처럼, 일상에 낯설고 흥미로운 장면을 만듭니다.</p>
+      <p class="l-ko">디자이너 장지윤의 이니셜 JJY에서 시작한 이름에는 크게 펼치는 상상(Jumbo), 유연한 생각(Jelly), 자유롭게 실험하는 공간(Yard)이라는 의미를 담았습니다. 브랜딩과 그래픽, 사진을 오가며 작은 아이디어를 키우고, 머릿속의 상상을 눈앞의 장면으로 옮깁니다.</p>
     </div>
     <div>
-      <p class="who">Jang Jiyoon <span class="kr">(장지윤)</span></p>
+      <p class="who">Jang Jiyoon <span class="kr l-ko">(장지윤)</span></p>
       <p class="who-date">2003.11.08</p>
     </div>
     <div class="cv">
       <section>
         <h2>Education</h2>
         <dl>
-          <dt>2026</dt><dd>홍익대학교 시각디자인과 재학(졸업 예정)</dd>
-          <dt>2023.07-08</dt><dd>홍익대학교 캠퍼스타운 인재양성 &lt;영상 편집 디자이너 양성과정&gt;</dd>
-          <dt>2022.03</dt><dd>홍익대학교 캠퍼스자율전공 입학</dd>
-          <dt>2022.02</dt><dd>당곡고등학교 졸업</dd>
+          <dt>2026</dt><dd><span class="l-ko">홍익대학교 시각디자인과 재학(졸업 예정)</span><span class="l-en">B.F.A. Visual Communication Design, Hongik University (expected)</span></dd>
+          <dt>2023.07-08</dt><dd><span class="l-ko">홍익대학교 캠퍼스타운 인재양성 &lt;영상 편집 디자이너 양성과정&gt;</span><span class="l-en">Hongik University Campus Town Talent Program &lt;Video Editing Designer Course&gt;</span></dd>
+          <dt>2022.03</dt><dd><span class="l-ko">홍익대학교 캠퍼스자율전공 입학</span><span class="l-en">Entered Hongik University, Campus Open Major</span></dd>
+          <dt>2022.02</dt><dd><span class="l-ko">당곡고등학교 졸업</span><span class="l-en">Graduated from Danggok High School</span></dd>
         </dl>
       </section>
       <section>
         <h2>Certificate</h2>
         <dl>
-          <dt>2025.08</dt><dd>중국어 말하기 능력 검정 시험(HSKK) 초급</dd>
-          <dt>2025.05</dt><dd>중국어 능력 검정 시험(HSK) 3급</dd>
-          <dt>2023.08</dt><dd>자동차운전면허증 2종 보통</dd>
+          <dt>2025.08</dt><dd><span class="l-ko">중국어 말하기 능력 검정 시험(HSKK) 초급</span><span class="l-en">HSKK (Chinese Speaking Test), Beginner</span></dd>
+          <dt>2025.05</dt><dd><span class="l-ko">중국어 능력 검정 시험(HSK) 3급</span><span class="l-en">HSK (Chinese Proficiency Test), Level 3</span></dd>
+          <dt>2023.08</dt><dd><span class="l-ko">자동차운전면허증 2종 보통</span><span class="l-en">Driver’s License, Class 2</span></dd>
         </dl>
       </section>
       <section>
         <h2>Activities</h2>
         <dl>
-          <dt>2026.09-2027.02</dt><dd>넥스트디자인스쿨 인턴</dd>
-          <dt>2026.05-2026.08</dt><dd>인사이드 더 플레이 : 군체 스텝 아르바이트</dd>
-          <dt>2025.03-2026.04</dt><dd>스타벅스 바리스타</dd>
-          <dt>2024.10-2025.01</dt><dd>LG유플러스 포동TF 디자인 아르바이트</dd>
-          <dt>2024.09</dt><dd>애드레날린 777전&lt;All Day (&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)!&gt; 아트디렉팅</dd>
-          <dt>2024.03</dt><dd>홍익대학교 시소전 &lt;OUR INDEX&gt; 전시 참여</dd>
-          <dt></dt><dd>홍익대학교 시소전 애드레날린 &lt;AnD&gt; 아트디렉팅</dd>
-          <dt>2023.03-2026.02</dt><dd>홍익대학교 태권도 동아리 홍익태권 홍보부</dd>
-          <dt>2023.10-2023.12</dt><dd>민들레마음 디자인 인턴</dd>
-          <dt>2023.03</dt><dd>홍익대학교 시소전 &lt;! (factorial)&gt; 전시 참여</dd>
-          <dt>2022.10</dt><dd>애드레날린 777전&lt;AD TAG&gt; 전시 참여</dd>
+          <dt>2026.09-2027.02</dt><dd><span class="l-ko">넥스트디자인스쿨 인턴</span><span class="l-en">Intern, Next Design School</span></dd>
+          <dt>2026.05-2026.08</dt><dd><span class="l-ko">인사이드 더 플레이 : 군체 스텝 아르바이트</span><span class="l-en">Part-time Staff, Inside the Play: Colony</span></dd>
+          <dt>2025.03-2026.04</dt><dd><span class="l-ko">스타벅스 바리스타</span><span class="l-en">Barista, Starbucks</span></dd>
+          <dt>2024.10-2025.01</dt><dd><span class="l-ko">LG유플러스 포동TF 디자인 아르바이트</span><span class="l-en">Part-time Designer, LG U+ Podong TF</span></dd>
+          <dt>2024.09</dt><dd><span class="l-ko">애드레날린 777전&lt;All Day (&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)!&gt; 아트디렉팅</span><span class="l-en">Art Direction, ADrenaline 777 Exhibition &lt;All Day (&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)!&gt;</span></dd>
+          <dt>2024.03</dt><dd><span class="l-ko">홍익대학교 시소전 &lt;OUR INDEX&gt; 전시 참여</span><span class="l-en">Exhibitor, Hongik University SISO Exhibition &lt;OUR INDEX&gt;</span></dd>
+          <dt></dt><dd><span class="l-ko">홍익대학교 시소전 애드레날린 &lt;AnD&gt; 아트디렉팅</span><span class="l-en">Art Direction, ADrenaline &lt;AnD&gt;, Hongik University SISO Exhibition</span></dd>
+          <dt>2023.03-2026.02</dt><dd><span class="l-ko">홍익대학교 태권도 동아리 홍익태권 홍보부</span><span class="l-en">Publicity Team, Hongik Taekwondo (university club)</span></dd>
+          <dt>2023.10-2023.12</dt><dd><span class="l-ko">민들레마음 디자인 인턴</span><span class="l-en">Design Intern, Mindeulle Maeum</span></dd>
+          <dt>2023.03</dt><dd><span class="l-ko">홍익대학교 시소전 &lt;! (factorial)&gt; 전시 참여</span><span class="l-en">Exhibitor, Hongik University SISO Exhibition &lt;! (factorial)&gt;</span></dd>
+          <dt>2022.10</dt><dd><span class="l-ko">애드레날린 777전&lt;AD TAG&gt; 전시 참여</span><span class="l-en">Exhibitor, ADrenaline 777 Exhibition &lt;AD TAG&gt;</span></dd>
         </dl>
       </section>
     </div>
@@ -518,8 +593,8 @@ button, input, textarea { font: inherit; color: inherit; }
     <nav class="fanwrap" aria-label="연락 채널">
       <h1 class="page-title"><a class="fan-trigger" href="#contact" aria-haspopup="true" aria-expanded="false">Contact</a></h1>
       <ul class="fan">
-        <li><a href="https://www.instagram.com/zyoouip/" target="_blank" rel="noopener" data-pick style="--i:0; --x:160px; --y:10px; --r:0deg; --x0:130px">@zyoouip</a></li>
-        <li><a href="https://www.instagram.com/zyoouie/" target="_blank" rel="noopener" data-pick style="--i:1; --x:150px; --y:80px; --r:15deg; --x0:130px">@zyoouie</a></li>
+        <li><a href="https://www.instagram.com/jumbojellyyard/" target="_blank" rel="noopener" data-pick style="--i:0; --x:160px; --y:10px; --r:0deg; --x0:130px">@jumbojellyyard</a></li>
+        <li><a href="https://www.instagram.com/zyoouip/" target="_blank" rel="noopener" data-pick style="--i:1; --x:150px; --y:80px; --r:15deg; --x0:130px">@zyoouip</a></li>
         <li><a href="#mail" data-pick style="--i:2; --x:118px; --y:158px; --r:33deg; --x0:130px">Mail</a></li>
       </ul>
     </nav>
@@ -528,33 +603,34 @@ button, input, textarea { font: inherit; color: inherit; }
   </header>
   <div class="contact-body">
     <p class="channels">
-      instagram <span class="arw">→</span> <a href="https://www.instagram.com/zyoouip/" target="_blank" rel="noopener">@zyoouip</a> / <a href="https://www.instagram.com/zyoouie/" target="_blank" rel="noopener">@zyoouie</a><br>
-      Mail <span class="arw">→</span> <a href="#mail">jumbojellyinyard@gmail.com</a>
+      instagram <span class="arw">→</span> <a href="https://www.instagram.com/jumbojellyyard/" target="_blank" rel="noopener">@jumbojellyyard</a> / <a href="https://www.instagram.com/zyoouip/" target="_blank" rel="noopener">@zyoouip</a><br>
+      Mail <span class="arw">→</span> <a href="#mail">jumbojellyyard@gmail.com</a>
     </p>
-    <p class="hello">또 놀러 오세요!<br>함께할 일이 있다면 옆에 적힌 주소로<br>편하게 연락 주세요.</p>
+    <p class="hello"><span class="l-ko">또 놀러 오세요!<br>함께할 일이 있다면 <span class="w-side">옆에</span><span class="w-below">아래에</span> 적힌 주소로<br>편하게 연락 주세요.</span><span class="l-en">Come visit again!<br>If there’s something we could make together,<br>reach out at the address <span class="w-side">beside this</span><span class="w-below">below</span>.</span></p>
     <form class="form" id="mailForm" novalidate>
-      <div class="field"><label for="f-company">회사명</label><input id="f-company" name="회사명" placeholder="Corporate name" autocomplete="organization"></div>
-      <div class="field"><label for="f-name">담당자 성함</label><input id="f-name" name="담당자 성함" placeholder="Your name" autocomplete="name"></div>
-      <div class="field"><label for="f-title">프로젝트명</label><input id="f-title" name="프로젝트명" placeholder="Project title"></div>
-      <div class="field"><label for="f-schedule">프로젝트 스케줄</label><input id="f-schedule" name="프로젝트 스케줄" placeholder="yyyy.mm.dd - yyyy.mm.dd"></div>
-      <div class="field"><label for="f-email">이메일</label><input id="f-email" name="이메일" type="email" placeholder="E-mail" autocomplete="email" required></div>
-      <div class="field"><label for="f-phone">담당자 번호</label><input id="f-phone" name="담당자 번호" type="tel" placeholder="Phone Number" autocomplete="tel"></div>
-      <div class="field full"><label for="f-detail">프로젝트 세부 내용</label><textarea id="f-detail" name="프로젝트 세부 내용" required></textarea></div>
+      <div class="field"><label for="f-company"><span class="l-ko">회사명</span><span class="l-en">Company</span></label><input id="f-company" name="회사명" placeholder="Corporate name" autocomplete="organization"></div>
+      <div class="field"><label for="f-name"><span class="l-ko">담당자 성함</span><span class="l-en">Name</span></label><input id="f-name" name="담당자 성함" placeholder="Your name" autocomplete="name"></div>
+      <div class="field"><label for="f-title"><span class="l-ko">프로젝트명</span><span class="l-en">Project</span></label><input id="f-title" name="프로젝트명" placeholder="Project title"></div>
+      <div class="field"><label for="f-schedule"><span class="l-ko">프로젝트 스케줄</span><span class="l-en">Schedule</span></label><input id="f-schedule" name="프로젝트 스케줄" placeholder="yyyy.mm.dd - yyyy.mm.dd"></div>
+      <div class="field"><label for="f-email"><span class="l-ko">이메일</span><span class="l-en">E-mail</span></label><input id="f-email" name="이메일" type="email" placeholder="E-mail" autocomplete="email" required></div>
+      <div class="field"><label for="f-phone"><span class="l-ko">담당자 번호</span><span class="l-en">Phone</span></label><input id="f-phone" name="담당자 번호" type="tel" placeholder="Phone Number" autocomplete="tel"></div>
+      <div class="field full"><label for="f-detail"><span class="l-ko">프로젝트 세부 내용</span><span class="l-en">Project details</span></label><textarea id="f-detail" name="프로젝트 세부 내용" required></textarea></div>
       <div class="send-row">
-        <button class="send" type="submit" id="sendBtn">보내기 <span class="arr">→</span></button>
+        <button class="send" type="submit" id="sendBtn"><span class="l-ko">보내기</span><span class="l-en">Send</span> <span class="arr">→</span></button>
         <span class="status" id="status" role="status"></span>
       </div>
     </form>
   </div>
 </main>
 
+<button class="lang" id="lang" type="button" aria-label="Language / 언어">KO</button>
 <button class="sound" id="sound" type="button" aria-pressed="false"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span><span class="lbl">Sound off</span></button>
-<div class="curtain" id="curtain" aria-hidden="true"><img src="field-jelly.webp" alt="" draggable="false"></div>
+<div class="curtain" id="curtain" aria-hidden="true"><canvas></canvas></div>
 <img class="drop" id="drop" src="cursor-shovel.png" alt="" aria-hidden="true">
 
 <script>
 (() => {
-  const MAIL_TO = 'jumbojellyinyard@gmail.com';
+  const MAIL_TO = 'jumbojellyyard@gmail.com';
 
   // ---------- Projects ----------
   // Every project, in the order each category lists them. Media files sit in media/.
@@ -565,7 +641,11 @@ button, input, textarea { font: inherit; color: inherit; }
     { slug: 'hearts2house', cat: 'branding', name: 'Hearts2House', bg: '#B5DCFF',
       text: 'Hearts2House는 Hearts2Hearts의 세계관을 디저트로 풀어낸 가상의 F&B 브랜드입니다. 멤버들이 파자마 파티를 즐기는 아지트를 콘셉트로, S2 로고를 케이크로 재해석하고 침대와 베개, 말발굽을 모티프로 디저트와 패키지를 디자인했습니다. 곳곳에 행운의 상징과 메시지를 담아 팬들이 이를 찾아보는 재미까지 즐길 수 있도록 기획했습니다.',
       meta: [['Date', '2025.11-2025.12'], ['Type', 'Spec F&B Branding'], ['Team', 'Personal Project'], ['Tools', 'GPT, Claude, Higgsfield, Nano Banna, Kling AI, Seedance, Adobe Photoshop']],
-      media: ['h2h-1.jpg', { row: ['h2h-a.jpg', 'h2h-b.jpg'], r: '242 / 302', n: 3, hold: '728 / 909' }, 'h2h-bed.jpg', 'h2h-3.jpg'] },
+      media: [],
+      sections: [
+        { h: 'Logo', text: ['Hearts2House의 로고는 Hearts2Hearts의 아이덴티티인 S2를 기반으로 디저트 브랜드에 맞게 재해석한 디자인입니다. S2 형태를 케이크로 확장하고, 상단의 촛불과 가운데가 갈라진 구조를 통해 파자마 파티와 ‘함께 나누는 디저트’를 상징했습니다. 또한 종이접기에서 착안한 가위로 오린 듯한 형태를 적용해, 동아리에서 직접 만든 듯한 손맛과 친밀한 분위기를 담았습니다.'], media: ['h2h-1.jpg'] },
+        { h: 'Concept Photo', text: [], media: [{ row: ['h2h-a.jpg', 'h2h-b.jpg'], r: '242 / 302', n: 3, hold: '728 / 909' }, 'h2h-bed.jpg', 'h2h-3.jpg'] },
+      ] },
     { slug: 'mevvment', cat: 'branding', name: 'Mevvment', bg: '#000000', fg: '#FFFFFF',
       text: 'MEVVMENT는 MEOVV를 exclusive, charismatic, seductive한 이미지로 포지셔닝한 가상의 앨범 프로젝트입니다. 사냥꾼을 테마로, 세상을 향해 시선을 곤두세우고 본능적으로 목표를 포착하는 모습을 담았습니다. 이름은 MEOVV와 Moment를 결합했으며, 앨범은 고양이의 사냥 대상인 물고기 형태의 키링으로 제작했습니다. 멤버별 상징색과 특징을 반영해 각 키링의 구성을 다르게 디자인했습니다.',
       meta: [['Date', '2025.09-2025.10'], ['Type', 'Spec Album Design'], ['Team', '장지윤, 오성건, 박예진, 이예은'], ['Role', 'Concept Development, Album Design'], ['Tools', 'Midjourney, GPT, Nano Banana, Kling AI, Adobe Photoshop, Adobe Premiere Pro']],
@@ -651,11 +731,52 @@ button, input, textarea { font: inherit; color: inherit; }
   ];
   // Pale page colours for the projects whose pages aren't designed yet (taken from each circle)
   const TINT = { nokkin: '#BCE2D9', 'wow-gum': '#E9E5E5', kkakda: '#FBF0EC', gwanghapseong: '#D9D7D0', profile: '#EAE7E3', event: '#DCDCDF', snap: '#E5E0D5', sss: '#DCDBD8', poster: '#F7F1B3', 'club-annual-zine': '#E3E4E3' };
+  // English for each project page (the switch at the bottom right); names of people stay as written
+  const EN = {
+    hearts2house: { text: 'Hearts2House is a fictional F&B brand that turns the world of Hearts2Hearts into desserts. Built around a hideout where the members hold a pajama party, it reimagines the S2 logo as a cake and uses beds, pillows and horseshoes as motifs for the desserts and packaging. Lucky symbols and messages are hidden throughout, so fans can enjoy finding them.',
+      sections: [['The Hearts2House logo reinterprets S2, the identity of Hearts2Hearts, for a dessert brand. The S2 grows into a cake, and the candle on top and the split down the middle stand for the pajama party and ‘desserts made to share’. Inspired by paper folding, its shapes look cut out with scissors, giving it the warm, handmade feel of something friends made together.'], []] },
+    mevvment: { text: 'MEVVMENT is a fictional album project that positions MEOVV with an exclusive, charismatic and seductive image. With the hunter as its theme, it captures the members keeping a sharp eye on the world and instinctively locking onto their target. The name joins MEOVV and Moment, and the album takes the form of fish keyrings, a cat’s prey. Each keyring is built differently to reflect each member’s color and character.' },
+    picto: { text: 'Picto is a smart wearable service that shares a child’s situation and the context of their feelings during the care gap while parent and child are apart. The name joins ‘Pic’, for drawing and recording feelings like pictures, with ‘to’, the direction toward the parent. When they meet again and look back on the day together, the time apart becomes conversation and part of the family’s story.',
+      sections: [
+        ['Orange, the main color, stands for the warmth of that time: the moments of drawing and talking together. Green, the secondary color, stands for emotional recovery through Picto, the child’s emotional growth building up day by day.'],
+        ['Picto’s emotion graphics are built by stacking the Picto typeface in layers. Slime, the main texture, changes shape fluidly as the board pops out and sinks in, showing that a child’s feelings are never fixed but keep flowing.'],
+        ['A wearable that gathers the child’s biometric data. Because it touches the skin directly, it is made of soft silicone. The sensing part is kept as small as possible so it doesn’t bother the wearer, and a sliding charging-port cover shaped like the Picto symbol adds function and fun. It comes in Picto’s five signature colors, carrying the brand identity.'],
+        ['Picto’s stretchable board is a communication tool that helps children express their thoughts and feelings more easily and freely. By letting them show feelings and experiences that are hard to put into words through drawing and play, it helps parent and child share their days and start talking naturally.', 'The board takes its shape from the Picto symbol, its right side curving inward. Its round, puffy form gives it a soft, squishy impression that children can approach comfortably.'],
+        ['A logo film that starts from the idea that a child’s feelings never settle into one shape. With each emotion word, ‘DOWN’, ‘COZY’, ‘EXCITED’ and ‘NERVOUS’, a translucent slime form stretches, squashes and changes. In the end the changing form becomes the Picto symbol, showing the brand’s role in discovering and recording many kinds of feelings. Bright lime green, a squishy texture and rhythmic motion carry Picto’s friendly, flexible image.'],
+      ] },
+    'double-a': { text: 'A brand photo series that shows the lightness and versatility of Double A paper by layering the supple movement of paper with a dancer’s body. Paper and human silhouettes are staged to flow as one, and the brand’s key color, blue, sharpens Double A’s vivid image.' },
+    'wow-gum': { text: 'Under the slogan ‘POP THE REALITY’, this Wow Gum brand photo project captures the free, playful feeling of chewing and blowing bubble gum. Going beyond the old focus on flavor and color, it uses kitschy styling, vivid colors and a girlish fantasy mood to picture ‘bubble gum more fun than you can imagine’, turning Wow Gum from a childhood memory into an emotional icon to enjoy today.' },
+    kkakda: { name: 'To Peel', text: '〈To Peel〉 is a photo and video project that begins with the question, ‘What can we call an apple?’ Through a real apple, an apple-shaped pencil sharpener, peeled skin and letters made from that peel, it follows how the idea of an apple shifts with form and function, time and language. Opening and closing with ‘This is not an apple,’ it explores the gap between what we see and what we name.' },
+    gwanghapseong: { name: 'Photosynthesis', text: '〈Photosynthesis〉 is a photo project that starts from Whee In’s song of the same name and expresses comfort and rest in everyday life. Reading ‘Photosynthesis’ as ‘Photo + Synthesis’, it photographs people resting in the sunlight and weaves them into one landscape. Warm yellows and greens and a fairy-tale composition carry the comfort of setting worries down for a while and resting with someone.' },
+    bbycakes: { text: 'A fictional music video that shows a relationship changed by a lover’s cheating through a cake’s changing colors and collapse. A third person coats the pink cake the main character made in mint, picturing the moment someone else steps into the relationship. Sweet cakes and bright colors keep the song’s upbeat mood until, at the end, the cake is torn down to show the feeling of facing betrayal.' },
+    'lunas-coffee-chat': { text: 'Luna’s Coffee Chat is a YouTube interview series at Next Design School that meets people from many fields to talk about work and careers. In relaxed conversation, each guest shares how they started, how they built their career and how they think about their work.' },
+    'my-lovely-liar': { text: 'A fictional teaser that recomposes scenes from the drama 〈My Lovely Liar〉. Centered on the contrast between Mok Sol-hee, who can tell when people lie, and Kim Do-ha, who hides who he is, it compresses their introductions, their meeting and the start of their romance into 45 seconds. Scenes are linked by key lines, with typography timed to each character change and pink accents, capturing a show where mystery and romantic comedy live side by side.' },
+  };
+  // Korean words in the project facts (clients, events); people's names are left as they are
+  const META_EN = [['홍익태권', 'Hongik Taekwondo'], ['전국태권도동아리연합대회', 'National Taekwondo Club Championship'], ['연무시범', 'Demonstration'], ['회지', 'Yearbook']];
+  const metaEn = v => META_EN.reduce((t, [k, e]) => t.split(k).join(e), v);
+  const both = (ko, en, tag = 'span') => en == null || en === ko ? (tag === 'span' ? esc(ko) : `<${tag}>${esc(ko)}</${tag}>`) : `<${tag} class="l-ko">${esc(ko)}</${tag}><${tag} class="l-en">${esc(en)}</${tag}>`;
   const BY = Object.fromEntries(PROJECTS.map(p => [p.slug, p]));
   const inCat = c => PROJECTS.filter(p => p.cat === c);
   const circle = p => `media/c-${p.slug}.webp`;
 
+  // Upright phones get their own scale: the ring and the wheel are drawn for a 1440 × 913 screen
+  const PHONE = () => innerWidth <= 600 && innerHeight > innerWidth;
   const $ = (s, r = document) => r.querySelector(s);
+  // ---------- Language (KO / EN) ----------
+  const tr = (ko, en) => document.documentElement.classList.contains('en') ? en : ko;
+  const setLang = l => {
+    document.documentElement.classList.toggle('en', l === 'en');
+    document.documentElement.lang = l;
+    const b = document.getElementById('lang'); if (b) b.textContent = l === 'en' ? 'EN' : 'KO';
+    try { localStorage.setItem('zyooui-lang', l); } catch {}
+  };
+  { let l = 'ko'; try { l = localStorage.getItem('zyooui-lang') || 'ko'; } catch {} setLang(l); }
+  document.getElementById('lang').addEventListener('click', () => {
+    setLang(tr('en', 'ko'));
+    // open fans re-measure their boxes in the new words
+    requestAnimationFrame(() => $$('.fanwrap.open').forEach(w => w._set(true)));
+  });
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
@@ -666,7 +787,7 @@ button, input, textarea { font: inherit; color: inherit; }
     return items.map((p, i) => {
       const k = i % per, out = i >= per ? 140 : 0, r = k * step, a = r * Math.PI / 180;
       const x = Math.round(-230 * (1 - Math.cos(a)) + out * Math.cos(a)), y = Math.round(10 + 300 * Math.sin(a) + out * Math.sin(a));
-      return `<li><a href="#${p.slug}" data-pick${p.slug === current ? ' class="here" aria-current="page"' : ''} data-x="${x}" data-y="${y}" style="--i:${i}; --x:calc(var(--fx) + ${x}px); --y:${y}px; --r:${r.toFixed(1)}deg; --x0:var(--fx)">${esc(p.name)}</a></li>`;
+      return `<li><a href="#${p.slug}" data-pick${p.slug === current ? ' class="here" aria-current="page"' : ''} data-x="${x}" data-y="${y}" style="--i:${i}; --x:calc(var(--fx) + ${x}px); --y:${y}px; --r:${r.toFixed(1)}deg; --x0:var(--fx)">${both(p.name, EN[p.slug]?.name)}</a></li>`;
     }).join('');
   }
   const catNav = cur => Object.entries(CATS).map(([k, v]) => `<a href="#${k}"${k === cur ? ' aria-current="page"' : ''}>${v}</a>`).join('');
@@ -686,8 +807,9 @@ button, input, textarea { font: inherit; color: inherit; }
 </main>`;
 
   // Project pages
-  const textHTML = paras => paras.map(t => `<p>${esc(t)}</p>`).join('');
-  const metaHTML = m => `<dl class="d-meta">${m.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>`;
+  // Korean paragraphs, then their English (one set shows)
+  const textHTML = (paras, en) => paras.map(t => `<p${en ? ' class="l-ko"' : ''}>${esc(t)}</p>`).join('') + (en || []).map(t => `<p class="l-en">${esc(t)}</p>`).join('');
+  const metaHTML = m => `<dl class="d-meta">${m.map(([k, v]) => `<dt>${k}</dt><dd>${both(v, metaEn(v))}</dd>`).join('')}</dl>`;
   // Media: an image file name, { row } for images side by side (hold: a grey block for images still to come), { src, w } for a narrower image, or { yt } for a YouTube film, { video } for a file in media/, { spin } for keyrings turning in 3D
   const imgs = list => list.map(m => {
     if (typeof m === 'string') return `<img src="media/${m}" alt="" loading="lazy" decoding="async">`;
@@ -729,14 +851,15 @@ button, input, textarea { font: inherit; color: inherit; }
     if (p.grid) media = (p.media ? imgs(p.media) : '') + `<div class="d-grid" data-photos="${ph}" data-ar="${p.ar || .8}" data-tour="${p.tour.join(' ')}" style="--cols:${p.cols || 4}; --ar:${p.ar || .8}">${p.grid.map(n => n ? `<button type="button" data-zoom="${n}" aria-label="사진 크게 보기"><img src="media/${ph}-${n}-s.jpg" alt="" loading="lazy"></button>` : '<span></span>').join('')}</div>`;
     else if (p.media) media = imgs(p.media);
     else media = `<img class="soon" src="${circle(p)}" alt="">`;
-    const intro = p.text ? textHTML([p.text]) + metaHTML(p.meta) : `<p>자세한 내용은 곧 업데이트할게요.</p>`;
+    const intro = p.text ? textHTML([p.text], EN[p.slug]?.text && [EN[p.slug].text]) + metaHTML(p.meta) : `<p class="l-ko">자세한 내용은 곧 업데이트할게요.</p><p class="l-en">Details coming soon.</p>`;
     const gridOf = (ph, keys, ar, cols) => `<div class="d-grid" data-photos="${ph}" data-ar="${ar}" data-tour="${keys.filter(Boolean).join(' ')}" style="--cols:${cols}; --ar:${ar}">${keys.map(n => n ? `<button type="button" data-zoom="${n}" aria-label="사진 크게 보기">${PACKED.has(ph) ? `<img data-pk="${n}" alt="">` : `<img src="media/${ph}-${n}-s.jpg" alt="" loading="lazy">`}</button>` : '<span></span>').join('')}</div>`;
     // Mixed portrait and landscape photos in their own shapes, packed into justified rows (Snap)
     const flowOf = (ph, keys, rat) => `<div class="d-flow" data-photos="${ph}" data-tour="${keys.join(' ')}">${keys.map(n => `<button type="button" data-zoom="${n}" data-r="${rat[n]}" style="--r:${rat[n]}" aria-label="사진 크게 보기">${PACKED.has(ph) ? `<img data-pk="${n}" alt="">` : `<img src="media/${ph}-${n}-s.jpg" alt="" loading="lazy">`}</button>`).join('')}</div>`;
     // Several shoots on one page (Profile): each its own date/client beside its own zoomable grid
     if (p.sets) return detailShell(p, bg, fg, p.sets.map(t => `${t.meta ? `<div class="d-text only-meta">${metaHTML(t.meta)}</div>` : ''}<div class="d-media">${t.flow ? flowOf(p.photos, t.grid, t.flow) : gridOf(p.photos, t.grid, t.ar, t.cols || 7)}</div>`));
-    const rows = [`<div class="d-text">${intro}</div><div class="d-media"${p.gap != null ? ` style="gap:${p.gap}px"` : ''}>${media}</div>`]
-      .concat((p.sections || []).map(s => `<div class="d-text"><h2>${esc(s.h)}</h2>${textHTML(s.text)}</div><div class="d-media">${imgs(s.media)}</div>`));
+    // a section is wrapped so phones can show heading, work, then words; on wide screens the wrapper is invisible to the grid
+    const rows = [`<div class="d-text">${intro}</div>${media ? `<div class="d-media"${p.gap != null ? ` style="gap:${p.gap}px"` : ''}>${media}</div>` : ''}`]
+      .concat((p.sections || []).map((s, i) => `<section class="d-sec"><div class="d-text"><h2>${esc(s.h)}</h2>${textHTML(s.text, EN[p.slug]?.sections?.[i])}</div><div class="d-media">${imgs(s.media)}</div></section>`));
     return detailShell(p, bg, fg, rows);
   }
   function detailShell(p, bg, fg, rows) {
@@ -744,7 +867,7 @@ button, input, textarea { font: inherit; color: inherit; }
 <main class="view detail" data-view="${p.slug}" id="v-${p.slug}" data-cat="${p.cat}" style="--pbg:${bg}; --pfg:${fg}" hidden>
   <header class="topbar">
     <nav class="fanwrap" aria-label="${CATS[p.cat]} 프로젝트">
-      <h1 class="page-title"><a class="fan-trigger" href="#${p.slug}" aria-haspopup="true" aria-expanded="false">${esc(p.name)}</a></h1>
+      <h1 class="page-title"><a class="fan-trigger" href="#${p.slug}" aria-haspopup="true" aria-expanded="false">${both(p.name, EN[p.slug]?.name)}</a></h1>
       <ul class="fan">${fanHTML(inCat(p.cat), p.slug)}</ul>
     </nav>
     <nav class="subnav" aria-label="분야">${catNav(p.cat)}</nav>
@@ -777,13 +900,16 @@ button, input, textarea { font: inherit; color: inherit; }
   }
   function fitFan(w) {
     const t = $('.fan-trigger', w); if (!t.offsetWidth) return;
-    const fx = Math.max(130, t.offsetWidth + 30), as = $$('.fan a', w), n = as.length, per = n > 4 ? Math.ceil(n / 2) : n;
+    // phones: the same arc at about 60%, starting just right of the title and level with its first line
+    const m = PHONE() ? .7 : 1, as = $$('.fan a', w), n = as.length, per = n > 4 ? Math.ceil(n / 2) : n;
+    const fx = m < 1 ? t.offsetWidth + 18 : Math.max(130, t.offsetWidth + 30);
+    const y0 = m < 1 ? ((parseFloat(getComputedStyle(t).lineHeight) || t.offsetHeight) - (as[0]?.offsetHeight || 30)) / 2 - 9 * m : 0;
     w.style.setProperty('--fx', fx + 'px');
     as.forEach((a, i) => {
-      const k = i % per, [dx, dy, r] = ARC[k], ux = dx + 230, uy = dy - 10, len = Math.hypot(ux, uy);
-      const out = i >= per ? Math.max(...as.slice(0, per).map(b => b.offsetWidth)) + 28 : 0;
+      const k = i % per, [dx, dy, r] = ARC[k].map((v, j) => j < 2 ? v * m : v), ux = dx + 230 * m, uy = dy - 10 * m, len = Math.hypot(ux, uy);
+      const out = i >= per ? Math.max(...as.slice(0, per).map(b => b.offsetWidth)) + 28 * m : 0;
       a.style.setProperty('--x', fx + dx + out * ux / len + 'px');
-      a.style.setProperty('--y', dy + out * uy / len + 'px');
+      a.style.setProperty('--y', y0 + dy + out * uy / len + 'px');
       a.style.setProperty('--r', r + 'deg');
     });
   }
@@ -794,7 +920,8 @@ button, input, textarea { font: inherit; color: inherit; }
   const ease = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
   const settle = x => { const c = .55; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
   const lerp = (a, b, t) => a + (b - a) * t;
-  const scaleK = () => Math.min(innerWidth / 1440, innerHeight / 913);
+  const scaleK = () => PHONE() ? Math.min(innerWidth / 790, innerHeight / 1000) : Math.min(innerWidth / 1440, innerHeight / 913);
+  const wheelK = () => PHONE() ? innerWidth / 1330 : scaleK();
 
   // ---------- The ring on the Projects page ----------
   // Turns slowly, then breaks into a wave of small circles, gathers into a pile, scatters to the
@@ -825,9 +952,10 @@ button, input, textarea { font: inherit; color: inherit; }
   // poses in design pixels around the stage centre: x, y, scale, spin, stacking
   const POSES = {
     ring: o => { const a = (ringRot + o.i * 360 / N - 90) * Math.PI / 180; return { x: 262 * Math.cos(a), y: 262 * Math.sin(a), s: 1, r: 0, z: o.i }; },
-    wave: o => { const t = o.i / (N - 1); return { x: lerp(-560, 560, t), y: 150 * Math.sin(t * Math.PI * 2.2 + .6) - 30, s: .3, r: (o.rnd - .5) * 40, z: o.i }; },
+    // on an upright phone the wave runs down the screen and the scatter hugs the long sides
+    wave: o => { const t = o.i / (N - 1); return PHONE() ? { x: 230 * Math.sin(t * Math.PI * 2.2 + .6), y: lerp(-620, 620, t), s: .42, r: (o.rnd - .5) * 40, z: o.i } : { x: lerp(-560, 560, t), y: 150 * Math.sin(t * Math.PI * 2.2 + .6) - 30, s: .3, r: (o.rnd - .5) * 40, z: o.i }; },
     pile: o => { const a = o.rnd * Math.PI * 2, d = 26 * Math.sqrt((o.i + .5) / N); return { x: d * Math.cos(a) * 3, y: d * Math.sin(a) * 2.2 - 10, s: 1.25 - o.i * .012, r: (o.rnd - .5) * 24, z: o.i }; },
-    edge: o => { const a = (o.i / N) * Math.PI * 2 + .3, rx = 600, ry = 330; return { x: rx * Math.cos(a), y: ry * Math.sin(a) - 30, s: .45, r: (o.rnd - .5) * 60, z: o.i }; },
+    edge: o => { const a = (o.i / N) * Math.PI * 2 + .3, rx = PHONE() ? 330 : 600, ry = PHONE() ? 700 : 330; return { x: rx * Math.cos(a), y: ry * Math.sin(a) - 30, s: .45, r: (o.rnd - .5) * 60, z: o.i }; },
   };
   const SCRIPT = [['ring', 4], ['wave', 1.6], ['pile', 1.4], ['edge', 1.6]];
   let sIdx = 0, sT = 0, trans = 0; const TRANS = .95;
@@ -843,7 +971,7 @@ button, input, textarea { font: inherit; color: inherit; }
       if (!ringHold) sT += dt;
       if (sT >= SCRIPT[sIdx][1]) { sT = 0; sIdx = (sIdx + 1) % SCRIPT.length; setTarget(SCRIPT[sIdx][0], now); }
     }
-    const k = scaleK(), cx = innerWidth / 2, cy = innerHeight * .56;
+    const k = scaleK(), cx = innerWidth / 2, cy = innerHeight * (PHONE() ? .53 : .56);
     // follow the pointer: every circle leans toward it by its own depth, and ones close to it get nudged aside
     ptr.sx += (ptr.x - ptr.sx) * Math.min(1, dt * 5); ptr.sy += (ptr.y - ptr.sy) * Math.min(1, dt * 5);
     const nx = ptr.on ? (ptr.sx - cx) / cx : 0, ny = ptr.on ? (ptr.sy - cy) / innerHeight : 0;
@@ -890,7 +1018,7 @@ button, input, textarea { font: inherit; color: inherit; }
       const dx = e.clientX - d.x;
       if (!d.moved && Math.abs(dx) < 6) return;
       if (!d.moved) { d.moved = true; stage.setPointerCapture(e.pointerId); }
-      w.pos = d.p - dx / (scaleK() * 700); w.t = 1;
+      w.pos = d.p - dx / (wheelK() * 700); w.t = 1;
     });
     const up = e => {
       const d = w.drag; if (!d || d.id !== e.pointerId) return; w.drag = null;
@@ -919,12 +1047,12 @@ button, input, textarea { font: inherit; color: inherit; }
   }
   let w8 = false;
   function turnTo(w, to, dur) { w.from = w.pos; w.to = to; w.t = 0; w.dur = dur; w.wait = 0; }
-  const sizeWheels = () => Object.values(wheels).forEach(w => w.stage.style.setProperty('--d', 662 * scaleK() + 'px'));
+  const sizeWheels = () => Object.values(wheels).forEach(w => w.stage.style.setProperty('--d', 662 * wheelK() + 'px'));
   sizeWheels(); addEventListener('resize', sizeWheels);
   function wheelFrame(w, dt) {
     if (w.t < 1) { w.t = Math.min(1, w.t + dt / w.dur); w.pos = lerp(w.from, w.to, settle(ease(w.t))); }
     else if (!w.drag && !w.hold && !w8) { w.wait += dt; if (w.wait > 2.8) turnTo(w, Math.round(w.pos) + 1, 1.25); }
-    const k = scaleK(), cx = innerWidth / 2, n = w.items.length;
+    const k = wheelK(), cx = innerWidth / 2, n = w.items.length, top = PHONE() ? innerHeight * .485 : CY * k;
     w.slots.forEach(s => {
       // each slot stands for the step nearest the current position that it can reach
       const v = s.k + SLOTS * Math.round((w.pos - s.k) / SLOTS), off = v - w.pos;
@@ -935,7 +1063,7 @@ button, input, textarea { font: inherit; color: inherit; }
         s.el.innerHTML = `<img src="${circle(p)}" alt="">`;
       }
       const a = off * STEP * Math.PI / 180;
-      const x = cx + WR * Math.sin(a) * k, y = (CY + WR * (1 - Math.cos(a))) * k;
+      const x = cx + WR * Math.sin(a) * k, y = top + WR * (1 - Math.cos(a)) * k;
       s.el.style.transform = `translate(${x}px, ${y}px) rotate(${off * STEP * ROLL}deg)`;
       s.el.classList.toggle('mid', Math.abs(off) < .5);
       s.el._off = off;
@@ -1248,6 +1376,7 @@ button, input, textarea { font: inherit; color: inherit; }
         silent = BY[v]?.cat === 'video';
         filmOn = false;
         onCover = v === 'home';
+        btn.classList.toggle('idle', !LISTS[v]);
         const key = LISTS[v] ? v : null;
         if (key !== listKey) {
           if (!audio.paused) await fade(0, 500);
@@ -1261,7 +1390,9 @@ button, input, textarea { font: inherit; color: inherit; }
 
   // ---------- Views and routing ----------
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
-  const video = $('#carousel');
+  const upright = matchMedia('(max-aspect-ratio: 3 / 4)');
+  const syncFilm = (v = route) => { const cv = $('#carousel video'); if (!cv) return; v === 'home' && !upright.matches ? cv.play().catch(() => {}) : cv.pause(); };
+  upright.addEventListener?.('change', () => syncFilm());
   const views = Object.fromEntries($$('[data-view]').map(el => [el.dataset.view, el]));
   const alias = { top: 'home', '': 'home', work: 'projects', project: 'projects' };
   const LOCKED = new Set(['home', 'projects', ...Object.keys(CATS)]);
@@ -1276,10 +1407,12 @@ button, input, textarea { font: inherit; color: inherit; }
     closeBox();
     Object.entries(views).forEach(([k, el]) => { el.hidden = k !== v; });
     document.documentElement.classList.toggle('lock', LOCKED.has(v));
+    document.documentElement.classList.toggle('on-home', v === 'home');
+    document.documentElement.classList.toggle('light-ui', v === 'home' || /^#f/i.test(BY[v]?.fg || ''));
     views.home.classList.toggle('still', v !== 'home');
-    { const cv = $('#carousel video'); if (cv) v === 'home' ? cv.play().catch(() => {}) : cv.pause(); }
+    syncFilm(v);
     // Replay the zoom each time the cover comes back
-    if (v === 'home' && route !== 'home') { video.style.animation = 'none'; void video.offsetWidth; video.style.animation = ''; }
+    if (v === 'home' && route !== 'home') $$('.meadow').forEach(m => { m.style.animation = 'none'; void m.offsetWidth; m.style.animation = ''; });
     const label = BY[v]?.name ?? CATS[v] ?? v[0].toUpperCase() + v.slice(1);
     document.title = v === 'home' ? 'jumbojellyyard' : `${label} — jumbojellyyard`;
     route = v;
@@ -1291,29 +1424,103 @@ button, input, textarea { font: inherit; color: inherit; }
   }
 
   // A giant red jelly drops onto the screen, the page swaps underneath, then the jelly falls on out of view
-  const curtain = $('#curtain'), blob = $('img', curtain);
+  // Red jelly slime melts down over the screen in long drips, the page swaps underneath,
+  // then the whole sheet slides on down and drips away off the bottom
+  const curtain = $('#curtain'), slimeCv = $('canvas', curtain), slime = slimeCv.getContext('2d');
+  const sleepFrame = () => new Promise(r => requestAnimationFrame(r));
+  // the real red jelly photo: its solid middle (no edges, no grass) is the slime's skin
+  const jellySkin = new Image(); jellySkin.src = 'field-jelly.webp';
+  const SKIN = { x: 450, y: 200, w: 800, h: 540 };
   async function wipe(origin, swap) {
-    const W = innerWidth, H = innerHeight;
-    // size it so the jelly's solid middle (about 60% of its width, 34% of its height) hides the whole viewport
-    const w = Math.max(W / .6, H / .34), h = w * 861 / 1519;
-    blob.style.width = `${w}px`;
-    blob.style.left = `${W / 2 - w / 2}px`; blob.style.top = `${H / 2 - h * .6}px`;
-    const above = -(H / 2 + h * .4) - 40, below = H / 2 + h * .6 + 40;
+    const W = innerWidth, H = innerHeight, dpr = Math.min(2, devicePixelRatio || 1);
+    slimeCv.width = Math.round(W * dpr); slimeCv.height = Math.round(H * dpr);
+    slime.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const u = Math.min(1.4, Math.max(.6, W / 1000));
+    // drips: where they hang, how wide, how far they run, how early they start
+    // fewer, fatter drips so it flows soft and round, never spiky
+    const n = Math.round(W / 120) + 3;
+    const drips = Array.from({ length: n }, (_, i) => ({
+      x: (i + .2 + Math.random() * .6) / n * W, w: (34 + Math.random() * 36) * u,
+      len: (60 + Math.random() * 170) * u, lag: Math.random() * .35,
+    }));
+    const wob = Math.random() * 6;
+    const STEP = Math.max(4, W / 220);
+    // the lower edge: a soft wavy rim plus every drip hanging from it
+    // the lower edge: a soft wavy rim, plus every drip hanging from it
+    const rimBase = (x, base) => base + 12 * u * Math.sin(x / (110 * u) + wob) + 4 * u * Math.sin(x / (53 * u) - wob);
+    const dripAt = (x, grow, sag) => {
+      // each drip is a rounded lobe (round bottom, soft sides); a smooth max blends them into
+      // the rim and into each other with soft fillets instead of sharp creases
+      const K = 16 * u;
+      let acc = 1;
+      for (const d of drips) {
+        const g = Math.max(0, Math.min(1, (grow - d.lag) / (1 - d.lag)));
+        const L = d.len * (g * g * (3 - 2 * g)) * sag, q = (x - d.x) / (d.w * (.8 + .3 * g));
+        if (q > -1 && q < 1) acc += Math.exp(L * Math.pow(1 - q * q, .45) / K);
+      }
+      return Math.max(0, K * Math.log(acc) - K * Math.log(1 + 1e-9));
+    };
+    const rim = (x, base, grow, sag) => rimBase(x, base) + dripAt(x, grow, sag);
+    // jelly skin scaled to cover the screen (a bit taller, so it can slide)
+    const skinH = H + 140 * u, skinK = Math.max(W / SKIN.w, skinH / SKIN.h);
+    const skinW = SKIN.w * skinK, skinX = (W - skinW) / 2;
+    const skinOk = jellySkin.complete && jellySkin.naturalWidth > 0;
+    const LIP = .16; // bottom share of the skin that stretches into the drips
+    const draw = (top, base, grow, sag, topWave) => {
+      slime.clearRect(0, 0, W, H);
+      const path = new Path2D(), topY = x => top + topWave * (14 * u * Math.sin(x / (120 * u) + wob * 2) - 10 * u);
+      path.moveTo(-10, top - 40);
+      for (let x = -10; x <= W + 10; x += STEP) path.lineTo(x, topY(x));
+      for (let x = W + 10; x >= -10; x -= STEP) path.lineTo(x, rim(x, base, grow, sag));
+      path.closePath();
+      slime.save(); slime.clip(path);
+      const g = slime.createLinearGradient(0, top, 0, base + 260 * u);
+      g.addColorStop(0, '#9e0014'); g.addColorStop(.55, '#d4061f'); g.addColorStop(1, '#f0233a');
+      slime.fillStyle = g; slime.fillRect(0, Math.min(0, top), W, H * 3);
+      if (skinOk) {
+        // the jelly body slides down with the rim; its lowest band is pulled long into each drip,
+        // so the real gloss, ribs and reflections stretch out as it melts
+        const lipSrc = SKIN.h * LIP, bodySrc = SKIN.h - lipSrc, lipDst = lipSrc * skinK;
+        for (let x = 0; x < W; x += STEP) {
+          const sx = SKIN.x + (x - skinX) / skinK, sw = STEP / skinK;
+          const yb = rimBase(x + STEP / 2, base), yr = yb + dripAt(x + STEP / 2, grow, sag);
+          const bodyBot = yb - lipDst + 2;
+          slime.drawImage(jellySkin, sx, SKIN.y, sw, bodySrc, x, bodyBot - bodySrc * skinK, STEP + .6, bodySrc * skinK);
+          slime.drawImage(jellySkin, sx, SKIN.y + bodySrc - 1, sw, lipSrc + 1, x, bodyBot - 2, STEP + .6, Math.max(lipDst, yr - bodyBot + 4) + 2);
+        }
+      }
+      // thickness: the rim curls under a little darker, then a wet highlight just above it
+      slime.lineJoin = 'round';
+      const rimLine = off => { slime.beginPath(); for (let x = -10; x <= W + 10; x += STEP) { const y = rim(x, base, grow, sag) - off; x <= -10 ? slime.moveTo(x, y) : slime.lineTo(x, y); } slime.stroke(); };
+      slime.filter = 'blur(5px)'; slime.lineWidth = 16 * u; slime.strokeStyle = 'rgba(70, 0, 8, .55)'; rimLine(0);
+      slime.filter = 'blur(2px)'; slime.lineWidth = 4 * u; slime.strokeStyle = 'rgba(255, 215, 220, .4)'; rimLine(11 * u);
+      if (topWave) { slime.beginPath(); for (let x = -10; x <= W + 10; x += STEP) { const y = topY(x) + 8 * u; x <= -10 ? slime.moveTo(x, y) : slime.lineTo(x, y); } slime.lineWidth = 5 * u; slime.strokeStyle = 'rgba(255, 220, 225, .5)'; slime.stroke(); }
+      slime.filter = 'none';
+      // a bright glint near each drip's rounded tip
+      for (const d of drips) {
+        const ty = rim(d.x, base, grow, sag), yb = rimBase(d.x, base);
+        if (ty - yb < 70 * u) continue;
+        slime.fillStyle = 'rgba(255, 245, 247, .38)'; slime.filter = 'blur(1.5px)';
+        slime.beginPath(); slime.ellipse(d.x - d.w * .3, ty - 26 * u, 4 * u, 11 * u, .12, 0, Math.PI * 2); slime.fill(); slime.filter = 'none';
+      }
+      slime.restore();
+    };
+    const run = async (ms, f) => {
+      const t0 = performance.now();
+      for (;;) {
+        const t = Math.min(1, (performance.now() - t0) / ms); f(t);
+        if (t >= 1 || document.hidden) break;
+        await sleepFrame();
+      }
+    };
+    const easeIn = t => t * t, easeOut = t => 1 - (1 - t) * (1 - t);
     curtain.style.visibility = 'visible';
-    const done = (a, ms) => Promise.race([a.finished.catch(() => {}), sleep(ms + 300)]);
-    await done(blob.animate([
-      { transform: `translateY(${above}px) scale(.94, 1.06)`, easing: 'cubic-bezier(.55, 0, 1, .45)' },
-      { transform: 'translateY(0) scale(1.05, .93)', offset: .7, easing: 'ease-out' },
-      { transform: 'translateY(0) scale(.98, 1.03)', offset: .86 },
-      { transform: 'translateY(0) scale(1)' },
-    ], { duration: 720, fill: 'forwards' }), 720);
+    // melt down: the sheet oozes from the top, drips racing ahead, until it covers everything
+    await run(900, t => draw(-60, lerp(-60, H + 20, ease(t)), easeOut(Math.min(1, t * 1.25)), 1, 0));
     swap();
-    await done(blob.animate([
-      { transform: 'translateY(0) scale(1)' },
-      { transform: 'translateY(-2%) scale(.98, 1.03)', offset: .18, easing: 'cubic-bezier(.5, 0, .9, .5)' },
-      { transform: `translateY(${below}px) scale(.97, 1.04)` },
-    ], { duration: 640, fill: 'forwards' }), 640);
-    blob.getAnimations().forEach(a => a.cancel());
+    // slide off: the top sags down after it, the drips stretch longer and run out the bottom
+    await run(850, t => { const e = easeIn(t); draw(lerp(-60, H + 40, e), lerp(H + 20, H * 2 + 300 * u, e), 1, 1 + t * .8, 1); });
+    slime.clearRect(0, 0, W, H);
     curtain.style.visibility = '';
   }
 
@@ -1338,7 +1545,7 @@ button, input, textarea { font: inherit; color: inherit; }
   $$('.fanwrap').forEach(w => {
     const trig = $('.fan-trigger', w);
     let t = 0;
-    const set = on => { clearTimeout(t); if (on && w.querySelector('[data-x]')) fitFan(w); if (on && w.closest('.home')) fitFan(w); w.classList.toggle('open', on); trig.setAttribute('aria-expanded', on); };
+    const set = on => { clearTimeout(t); if (on && (w.querySelector('[data-x]') || w.closest('.home') || PHONE())) fitFan(w); w.classList.toggle('open', on); trig.setAttribute('aria-expanded', on); };
     w._set = set;
     w.addEventListener('pointerenter', e => { if (e.pointerType !== 'touch') set(true); });
     // A short grace period so a diagonal move from the title to a box doesn't close the menu
@@ -1404,6 +1611,26 @@ button, input, textarea { font: inherit; color: inherit; }
 
   show(viewOf(alias[location.hash.slice(1)] ?? location.hash.slice(1)));
 
+  // ---------- First visit: a hello over the cover ----------
+  // Opening the site on the cover shows a short note on a dark veil; a click or tap anywhere lifts it and the yard zooms in
+  (() => {
+    const g = $('#greet');
+    if (route !== 'home') return;
+    views.home.classList.add('greeting'); g.classList.remove('gone');
+    let done = false;
+    const lift = () => {
+      if (done) return; done = true;
+      g.classList.add('gone'); views.home.classList.remove('greeting');
+      removeEventListener('keydown', key, true);
+    };
+    const key = e => { if (['Enter', ' ', 'Escape'].includes(e.key)) { e.preventDefault(); lift(); } };
+    g.addEventListener('click', lift);
+    // the logo and Contact stay live above the veil; using them lifts it too
+    $('.home-bar').addEventListener('click', lift);
+    addEventListener('keydown', key, true);
+    addEventListener('hashchange', lift);
+  })();
+
 
   // ---------- Full screen on the first click (desktop) ----------
   // Asked on click, not pointerdown: the page shifts as it goes full screen, and a shift between
@@ -1444,7 +1671,7 @@ button, input, textarea { font: inherit; color: inherit; }
         const cls = [v === lo || v === hi ? 'end' : (a && v > lo && v < hi ? 'in' : ''), v === t ? 'today' : ''].join(' ').trim();
         cells += `<button type="button" data-d="${v}"${cls ? ` class="${cls}"` : ''}>${i}</button>`;
       }
-      cal.innerHTML = `<div class="cal-head"><button type="button" data-m="-1" aria-label="이전 달">‹</button><span>${y}.${pad(mo + 1)}</span><button type="button" data-m="1" aria-label="다음 달">›</button></div><div class="cal-grid">${cells}</div><div class="cal-note">${a && !b ? '끝나는 날을 골라 주세요' : '시작하는 날을 골라 주세요'}</div>`;
+      cal.innerHTML = `<div class="cal-head"><button type="button" data-m="-1" aria-label="이전 달">‹</button><span>${y}.${pad(mo + 1)}</span><button type="button" data-m="1" aria-label="다음 달">›</button></div><div class="cal-grid">${cells}</div><div class="cal-note">${a && !b ? tr('끝나는 날을 골라 주세요', 'Pick the end date') : tr('시작하는 날을 골라 주세요', 'Pick the start date')}</div>`;
     };
     const open = () => { if (!cal.hidden) return; parse(); draw(); cal.hidden = false; };
     const close = () => { cal.hidden = true; };
@@ -1466,42 +1693,56 @@ button, input, textarea { font: inherit; color: inherit; }
 
   const form = $('#mailForm'), status = $('#status'), sendBtn = $('#sendBtn');
   const say = (html, err) => { status.innerHTML = html; status.classList.toggle('err', !!err); };
+  // The message goes through FormSubmit on the real site. Inside the Claude viewer pages can't reach other
+  // sites, so there (and whenever FormSubmit fails) the visitor's own mail app opens with everything filled in.
+  const mailtoFrom = data => {
+    const lines = Object.entries(data).filter(([k, v]) => !k.startsWith('_') && v).map(([k, v]) => `${k}: ${v}`).join('\n');
+    return `mailto:${MAIL_TO}?subject=${encodeURIComponent(data._subject)}&body=${encodeURIComponent(lines)}`;
+  };
+  const openMail = url => {
+    const a = document.createElement('a'); a.href = url; a.target = IN_ARTIFACT ? '_blank' : '_self'; a.rel = 'noopener';
+    document.body.appendChild(a); a.click(); a.remove();
+    say(tr('메일 앱에 내용을 채워 두었어요. 확인하고 보내 주세요.', 'Your mail app is open with the message filled in. Check it and press send.')
+      + ` ${tr('열리지 않으면', 'If nothing opened, write to')} <b>${MAIL_TO}</b>${tr(' 로 보내 주세요.', '.')}`);
+  };
   form.addEventListener('submit', async e => {
     e.preventDefault();
     const email = $('#f-email'), detail = $('#f-detail');
-    if (!email.value.trim() || !email.checkValidity()) { say('답장받을 이메일 주소를 확인해 주세요.', true); email.focus(); return; }
-    if (!detail.value.trim()) { say('프로젝트 세부 내용을 적어 주세요.', true); detail.focus(); return; }
+    if (!email.value.trim() || !email.checkValidity()) { say(tr('답장받을 이메일 주소를 확인해 주세요.', 'Please check your e-mail address.'), true); email.focus(); return; }
+    if (!detail.value.trim()) { say(tr('프로젝트 세부 내용을 적어 주세요.', 'Please tell us about the project.'), true); detail.focus(); return; }
     const data = Object.fromEntries(new FormData(form));
-    data._subject = `[zyooui] ${data['프로젝트명'] || '새 프로젝트 문의'}`;
+    data._subject = `[Jumbo Jelly yard] ${data['프로젝트명'] || '새 프로젝트 문의'}`;
     data._replyto = data['이메일'];
     data._template = 'table';
     data._captcha = 'false';
-    sendBtn.disabled = true; say('보내는 중…');
+    if (IN_ARTIFACT) { openMail(mailtoFrom(data)); return; }
+    sendBtn.disabled = true; say(tr('보내는 중…', 'Sending…'));
     try {
       const res = await fetch(`https://formsubmit.co/ajax/${MAIL_TO}`, {
         method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data),
       });
       const json = await res.json().catch(() => ({}));
       if (!res.ok || String(json.success) === 'false') throw new Error(json.message || res.status);
-      form.reset(); say('보냈어요. 확인 후 연락드릴게요.');
+      form.reset(); say(tr('보냈어요. 확인 후 연락드릴게요.', 'Sent. We’ll get back to you soon.'));
     } catch {
-      say(`지금은 보낼 수 없어요. <b>${MAIL_TO}</b> 로 직접 보내 주세요.`, true);
+      openMail(mailtoFrom(data));
     } finally { sendBtn.disabled = false; }
   });
 
   // ---------- Cover: dig the jelly with the shovel ----------
   let digAt = 0;
-  (() => {
-    const box = $('.field-jelly'), img = $('img', box);
+  $$('.field-jelly').forEach(box => {
+    const img = $('img', box), meadow = box.closest('.meadow');
     const hit = document.createElement('canvas'); let hc = null;
     const probe = new Image();
     probe.onload = () => { hit.width = probe.naturalWidth >> 2; hit.height = probe.naturalHeight >> 2; hc = hit.getContext('2d', { willReadFrequently: true }); hc.drawImage(probe, 0, 0, hit.width, hit.height); };
     probe.src = img.src;
     const layer = document.createElement('div'); layer.className = 'digs'; box.append(layer);
-    const A = 438 / 778, AR = .82; // jelly image aspect (h/w), cut aspect (w/h)
+    let A = 438 / 778; const AR = .82; // jelly image aspect (h/w), cut aspect (w/h)
+    img.decode?.().then(() => { A = img.naturalHeight / img.naturalWidth; }).catch(() => {});
     const cuts = [];
-    $('#carousel').addEventListener('pointerdown', e => {
-      if (e.button > 0) return;
+    meadow.addEventListener('pointerdown', e => {
+      if (e.button > 0 || views.home.classList.contains('greeting')) return;
       const r = box.getBoundingClientRect();
       const u = (e.clientX - r.left) / r.width, v = (e.clientY - r.top) / r.height;
       if (u < 0 || u > 1 || v < 0 || v > .97) return;
@@ -1538,7 +1779,7 @@ button, input, textarea { font: inherit; color: inherit; }
         ], { duration: 1000, easing: 'cubic-bezier(.25, .6, .4, 1)' }).finished.then(() => k.remove());
       }, 190);
     });
-  })();
+  });
 
   // ---------- Shovel cursor (fine pointers only) ----------
   if (matchMedia('(pointer: fine)').matches) {

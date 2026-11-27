@@ -146,6 +146,10 @@ button, input, textarea { font: inherit; color: inherit; }
 /* Phones held upright get their own still of the yard (cover-m.jpg) instead of the wide film */
 .meadow-m { display: none; width: max(100vw, calc(100svh * 960 / 2068)); aspect-ratio: 960 / 2068; transform-origin: 50% 48%; background: #8fc0e8; animation-name: zoomin-m; }
 .meadow-m .field-jelly { --jimg: url(field-jelly-m.webp); }
+/* the phone film lies over the still and only shows once it is really playing, so no play button ever appears */
+.meadow-m .film-m { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .4s; pointer-events: none; }
+.meadow-m .film-m.on { opacity: 1; }
+.film-m::-webkit-media-controls, .film-m::-webkit-media-controls-start-playback-button, .film-m::-webkit-media-controls-overlay-play-button { display: none !important; -webkit-appearance: none; }
 @keyframes zoomin-m { from { transform: scale(1); } to { transform: scale(1.08); } }
 @media (max-aspect-ratio: 3 / 4) {
   .meadow:not(.meadow-m) { display: none; }
@@ -504,6 +508,7 @@ html.light-ui .lang { color: #FFFFFF; } /* on the cover photo and on dark projec
   </div>
   <div class="meadow meadow-m" aria-hidden="true">
     <img class="field-bg" src="cover-m.jpg" alt="" draggable="false">
+    <video class="field-bg film-m" muted loop playsinline preload="none" poster="cover-m.jpg" disablepictureinpicture disableremoteplayback aria-hidden="true" tabindex="-1"><source src="cover-m.mp4" type="video/mp4"></video>
     <div class="field-jelly" style="left:9.271%; top:39.023%; width:81.979%"><img src="field-jelly-m.webp" alt="" draggable="false"></div>
   </div>
   <div class="greet gone" id="greet" role="dialog" aria-label="인사말">
@@ -1405,7 +1410,14 @@ html.light-ui .lang { color: #FFFFFF; } /* on the cover photo and on dark projec
   // ---------- Views and routing ----------
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   const upright = matchMedia('(max-aspect-ratio: 3 / 4)');
-  const syncFilm = (v = route) => { const cv = $('#carousel video'); if (!cv) return; v === 'home' && !upright.matches ? cv.play().catch(() => {}) : cv.pause(); };
+  const filmM = $('.film-m');
+  if (filmM) { filmM.addEventListener('playing', () => filmM.classList.add('on')); filmM.addEventListener('pause', () => filmM.classList.remove('on')); }
+  const syncFilm = (v = route) => {
+    const cv = $('#carousel video'); if (!cv) return;
+    v === 'home' && !upright.matches ? cv.play().catch(() => {}) : cv.pause();
+    // phones: the yard's own upright film; if the phone refuses to play it (low power mode), the still stays
+    if (filmM) v === 'home' && upright.matches ? filmM.play().catch(() => {}) : filmM.pause();
+  };
   upright.addEventListener?.('change', () => syncFilm());
   const views = Object.fromEntries($$('[data-view]').map(el => [el.dataset.view, el]));
   const alias = { top: 'home', '': 'home', work: 'projects', project: 'projects' };

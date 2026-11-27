@@ -895,7 +895,9 @@ html.light-ui .lang { color: #FFFFFF; } /* on the cover photo and on dark projec
       a.style.setProperty('--y', `${mid - h / 2}px`);
       // plank centres ride a circle around a pivot level with the first line; each plank turns with its angle
       const dy = mid + h / 2 - c0, R = 4.4 * (lines[0].bottom - lines[0].top), th = Math.asin(Math.min(.95, dy / R));
-      a.style.setProperty('--x', `${right + 34 - R * (1 - Math.cos(th)) * 1.6}px`);
+      // but never so far left that a turned box covers the logo: its turned outline stays clear of the words
+      const w = a.offsetWidth || 120, half = (w * Math.cos(th) + h * Math.abs(Math.sin(th))) / 2;
+      a.style.setProperty('--x', `${Math.max(right + 34 - R * (1 - Math.cos(th)) * 1.6, right + 18 - w / 2 + half)}px`);
       a.style.setProperty('--r', `${th * 180 / Math.PI}deg`);
     });
   }

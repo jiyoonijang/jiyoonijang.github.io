@@ -118,6 +118,8 @@ button, input, textarea { font: inherit; color: inherit; }
   animation: zoomin 1.5s cubic-bezier(.75, 0, .15, 1) .25s both;
 }
 .meadow img, .meadow video { display: block; user-select: none; -webkit-user-drag: none; }
+/* photos can't be dragged out, long-pressed or right-clicked to save */
+img, video, .cut, .chunk { -webkit-user-select: none; user-select: none; -webkit-user-drag: none; -webkit-touch-callout: none; }
 .field-bg { width: 100%; height: 100%; object-fit: cover; }
 .field-jelly { position: absolute; z-index: 2; transform-origin: 50% 98%; }
 .field-jelly img { width: 100%; height: auto; visibility: hidden; }
@@ -910,7 +912,7 @@ html.light-ui .lang { color: #FFFFFF; } /* on the cover photo and on dark projec
       const l = lines[Math.min(i, lines.length - 1)], h = a.offsetHeight || 35, mid = (l.top + l.bottom) / 2 + (l.bottom - l.top) * .06 - o.top;
       a.style.setProperty('--y', `${mid - h / 2}px`);
       // plank centres ride a circle around a pivot level with the first line; each plank turns with its angle
-      const dy = mid + h / 2 - c0, R = 4.4 * (lines[0].bottom - lines[0].top), th = Math.asin(Math.min(.95, dy / R));
+      const dy = mid + h / 2 - c0, R = 7 * (lines[0].bottom - lines[0].top), th = Math.asin(Math.min(.95, dy / R));
       // but never so far left that a turned box covers the logo: its turned outline stays clear of the words
       const w = a.offsetWidth || 120, half = (w * Math.cos(th) + h * Math.abs(Math.sin(th))) / 2;
       a.style.setProperty('--x', `${Math.max(right + 34 - R * (1 - Math.cos(th)) * 1.6, right + 18 - w / 2 + half)}px`);
@@ -1592,7 +1594,7 @@ html.light-ui .lang { color: #FFFFFF; } /* on the cover photo and on dark projec
   $$('.fanwrap').forEach(w => {
     const trig = $('.fan-trigger', w);
     let t = 0;
-    const set = on => { clearTimeout(t); if (on && (w.querySelector('[data-x]') || w.closest('.home') || PHONE())) fitFan(w); w.classList.toggle('open', on); trig.setAttribute('aria-expanded', on); };
+    const set = on => { clearTimeout(t); if (on) { if (w.closest('.home')) fitHomeFan(w); else if (w.querySelector('[data-x]') || PHONE()) fitFan(w); } w.classList.toggle('open', on); trig.setAttribute('aria-expanded', on); };
     w._set = set;
     w.addEventListener('pointerenter', e => { if (e.pointerType !== 'touch') set(true); });
     // A short grace period so a diagonal move from the title to a box doesn't close the menu
@@ -1777,6 +1779,12 @@ html.light-ui .lang { color: #FFFFFF; } /* on the cover photo and on dark projec
         + ` <b>${MAIL_TO}</b>${tr(' 로 보내 주세요.', '.')}`, true);
     } finally { sendBtn.disabled = false; }
   });
+
+  // ---------- Keep the work from being saved ----------
+  // no right-click "Save image", no dragging a photo out, no long-press menu (screenshots can't be stopped)
+  const guarded = t => t instanceof Element && !!t.closest('img, video, picture, canvas, .lightbox figure, .d-media, [data-zoom], .orb, .meadow');
+  document.addEventListener('contextmenu', e => { if (guarded(e.target)) e.preventDefault(); });
+  document.addEventListener('dragstart', e => { if (guarded(e.target)) e.preventDefault(); });
 
   // ---------- Cover: dig the jelly with the shovel ----------
   let digAt = 0;

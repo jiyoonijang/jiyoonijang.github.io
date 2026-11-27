@@ -155,7 +155,7 @@ img, video, .cut, .chunk { -webkit-user-select: none; user-select: none; -webkit
 /* Phones held upright get their own still of the yard (cover-m.jpg) instead of the wide film */
 .meadow-m { display: none; width: max(100vw, calc(100svh * 960 / 2068)); aspect-ratio: 960 / 2068; transform-origin: 50% 48%; background: #8fc0e8; animation-name: zoomin-m; }
 /* the phone film lies over the still and only shows once it is really playing, so no play button ever appears */
-.meadow-m .film-m { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .4s; pointer-events: none; }
+.meadow-m .film-m { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .4s; pointer-events: none; }
 .meadow-m .film-m.on { opacity: 1; }
 .film-m::-webkit-media-controls, .film-m::-webkit-media-controls-start-playback-button, .film-m::-webkit-media-controls-overlay-play-button { display: none !important; -webkit-appearance: none; }
 @keyframes zoomin-m { from { transform: none; } to { transform: none; } }

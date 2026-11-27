@@ -447,6 +447,9 @@ html.light-ui .lang { color: #FFFFFF; } /* on the cover photo and on dark projec
   #v-projects .subnav a[href="#contact"] { order: 3; }
   #v-projects .topbar .home-link { order: 4; }
   #v-projects .page-title { font-size: 16px; line-height: 1.6; }
+  /* project pages: the name is plain until it is pressed and its list opens */
+  .detail .page-title, .detail .page-title .fan-trigger { text-decoration-color: transparent; }
+  .detail .fanwrap.open .page-title, .detail .fanwrap.open .fan-trigger { text-decoration-color: currentColor; }
   #v-projects .page-title .fan-trigger { text-underline-offset: 4px; }
   .fan a { font-size: 14px; padding: 7px 12px 8px; }
   /* About and Contact need no big page name on a phone: the underlined link in the top row says it */
